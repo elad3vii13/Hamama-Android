@@ -21,6 +21,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -40,6 +42,7 @@ import android.widget.ToggleButton;
  */
 public class MainActivity extends AppCompatActivity {
     Spinner spinner;
+    ToggleButton alarmToggle;
     long interval = AlarmManager.INTERVAL_DAY;
     // Notification ID.
     private static final int NOTIFICATION_ID = 0;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         final long[] items_value = new long[]{ AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_HALF_HOUR, AlarmManager.INTERVAL_HOUR, AlarmManager.INTERVAL_HALF_DAY};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         spinner.setAdapter(adapter);
-        spinner.setSelection(3);
+        //spinner.setSelection(positionDefault);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mNotificationManager = (NotificationManager)
                 getSystemService(NOTIFICATION_SERVICE);
 
-        ToggleButton alarmToggle = findViewById(R.id.alarmToggle);
+        alarmToggle = findViewById(R.id.alarmToggle);
 
         // Set up the Notification Broadcast Intent.
         Intent notifyIntent = new Intent(this, AlarmReceiver.class);
@@ -148,6 +151,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the notification channel.
         createNotificationChannel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        SharedPreferences sh = getSharedPreferences("Shared", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sh.edit();
+        editor.putInt("position", spinner.getSelectedItemPosition());
+        editor.putBoolean("button", alarmToggle.hasSelection());
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sh1 = getSharedPreferences("Shared", MODE_PRIVATE);
+        int p = sh1.getInt("position", 0);
+        spinner.setSelection(p);
     }
 
     /**

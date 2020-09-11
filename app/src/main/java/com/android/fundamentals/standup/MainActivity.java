@@ -160,17 +160,19 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sh = getSharedPreferences("Shared", MODE_PRIVATE);
         SharedPreferences.Editor editor = sh.edit();
         editor.putInt("position", spinner.getSelectedItemPosition());
-        editor.putBoolean("button", alarmToggle.hasSelection());
+        editor.putBoolean("checked", alarmToggle.isChecked());
         editor.commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        alarmToggle.isChecked();
         SharedPreferences sh1 = getSharedPreferences("Shared", MODE_PRIVATE);
         int p = sh1.getInt("position", 0);
+        boolean b = sh1.getBoolean("checked", false);
         spinner.setSelection(p);
+        alarmToggle.setChecked(b);
     }
 
     /**

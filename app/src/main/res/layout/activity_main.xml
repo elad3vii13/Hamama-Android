@@ -41,4 +41,13 @@
         android:layout_above="@id/alarmToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></Spinner>
+
+    <Button
+        android:onClick="signOut"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Sign Out"></Button>
 </RelativeLayout>

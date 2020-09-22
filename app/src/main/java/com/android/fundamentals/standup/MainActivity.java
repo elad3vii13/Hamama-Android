@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // Show a toast to say the alarm is turned on or off.
-                        Toast.makeText(MainActivity.this, toastMessage,
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, toastMessage,
+//                                Toast.LENGTH_SHORT).show();
                     }
                 });
 

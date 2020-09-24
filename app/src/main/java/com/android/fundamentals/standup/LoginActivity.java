@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void moveToMainActivity(GoogleSignInAccount account){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra("account", account);
         if (gso instanceof Parcelable)
             intent.putExtra("gso", gso);

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
     private NotificationManager mNotificationManager;
-    public GoogleSignInClient mGoogleSignInClient;
+
 
     /**
      * Initializes the activity.
@@ -69,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        GoogleSignInOptions gso = (GoogleSignInOptions) intent.getParcelableExtra("gso");
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
 
         spinner = findViewById(R.id.spinner);
@@ -217,15 +215,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void signOut(View view) {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-    }
+
 }

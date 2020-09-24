@@ -25,29 +25,20 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 
 /**
  * MainActivity for the Stand up! app. Contains a toggle button that
  * sets an alarm which delivers a Stand up notification every 15 minutes.
  */
-public class MainActivity extends AppCompatActivity {
+public class ApplicationSettings extends AppCompatActivity {
     Spinner spinner;
     ToggleButton alarmToggle;
     long interval = AlarmManager.INTERVAL_DAY;
@@ -67,10 +58,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-
+        setContentView(R.layout.activity_application_settings);
 
         spinner = findViewById(R.id.spinner);
 

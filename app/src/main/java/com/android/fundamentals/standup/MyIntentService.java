@@ -68,7 +68,7 @@ public class MyIntentService extends IntentService {
     private void deliverNotification(Context context) {
         // Create the content intent for the notification, which launches
         // this activity
-        Intent contentIntent = new Intent(context, MainActivity.class);
+        Intent contentIntent = new Intent(context, ApplicationSettings.class);
 
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (context, NOTIFICATION_ID, contentIntent, PendingIntent

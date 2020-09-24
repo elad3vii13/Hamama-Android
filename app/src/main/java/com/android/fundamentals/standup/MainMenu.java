@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -43,13 +44,30 @@ public class MainMenu extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         // ...
                         Intent intent = new Intent(MainMenu.this, LoginActivity.class);
+                        Toast.makeText(MainMenu.this, "Disconnected From Google Account", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                     }
                 });
     }
 
-    public void ApplicationSettings(View view) {
-        Intent intent = new Intent(MainMenu.this, MainActivity.class);
+    public void ApplicationSettingsActivity(View view) {
+        Intent intent = new Intent(MainMenu.this, ApplicationSettings.class);
+        startActivity(intent);
+    }
+
+    public void LogActivity(View view) {
+        Intent intent = new Intent(MainMenu.this, Log.class);
+        startActivity(intent);
+    }
+
+    public void SettingsActivity(View view) {
+        Intent intent = new Intent(MainMenu.this, Settings.class);
+        startActivity(intent);
+    }
+
+
+    public void MeasuresActivity(View view) {
+        Intent intent = new Intent(MainMenu.this, Measures.class);
         startActivity(intent);
     }
 }

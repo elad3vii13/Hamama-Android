@@ -1,6 +1,8 @@
 package com.android.fundamentals.standup;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,19 +15,47 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.Serializable;
 
 
 public class LoginActivity extends AppCompatActivity {
-
+    GoogleSignInOptions gso;
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected void onResume() {
+        super.onResume();
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account == null) handleLogin();
+        else {
+            moveToMainActivity(account);
+        }
+    }
+
+    private void moveToMainActivity(GoogleSignInAccount account){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("account", account);
+        if (gso instanceof Parcelable)
+            intent.putExtra("gso", gso);
+        startActivity(intent);
+    }
+
+    private void handleLogin(){
 
         signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -39,18 +69,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-//        Intent intent1 = new Intent(this, MainActivity.class);
-//        startActivity(intent1);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void signIn() {
@@ -87,9 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             function();
 
             // Signed in successfully, show authenticated UI.
-            Intent intent1 = new Intent(this, MainActivity.class);
-
-            startActivity(intent1);
+            moveToMainActivity(account);
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

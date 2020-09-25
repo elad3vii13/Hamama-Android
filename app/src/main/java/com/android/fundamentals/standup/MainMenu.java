@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 public class MainMenu extends AppCompatActivity {
     public GoogleSignInClient mGoogleSignInClient;
 
+    GoogleSignInAccount account;
     TextView welcome_tv;
     Button signout_btn;
 
@@ -33,7 +34,7 @@ public class MainMenu extends AppCompatActivity {
         GoogleSignInOptions gso = (GoogleSignInOptions) intent.getParcelableExtra("gso");
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        account = GoogleSignIn.getLastSignedInAccount(this);
         welcome_tv.setText(  "ברוכים הבאים, " + account.getGivenName());
     }
 
@@ -44,7 +45,7 @@ public class MainMenu extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         // ...
                         Intent intent = new Intent(MainMenu.this, LoginActivity.class);
-                        Toast.makeText(MainMenu.this, "Disconnected From Google Account", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainMenu.this, "Disconnected From: " + account.getEmail(), Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                     }
                 });

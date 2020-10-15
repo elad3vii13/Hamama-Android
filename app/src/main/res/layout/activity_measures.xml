@@ -6,10 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Measures">
 
-    <TextView
-        android:layout_centerInParent="true"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/fragGraph"
+        class="com.android.fundamentals.standup.Graph"></fragment>
+
+    <fragment
+        android:id="@+id/fragGraphSettings"
+        class="com.android.fundamentals.standup.GraphSettings"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Measures Activity"/>
+        android:layout_below="@id/fragGraph"
+        android:layout_alignParentBottom="true"></fragment>
 </RelativeLayout>

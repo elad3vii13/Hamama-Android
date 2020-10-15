@@ -15,6 +15,10 @@
   -->
 
 <resources>
+    <string name="time">תאריך ושעה</string>
+    <string name="spObject">בחירת אובייקט</string>
+    <string name="spProperties">בחירת תכונה</string>
+    <string name="graph_btn">הצג גרף</string>
     <string name="app_name">Stand Up!</string>
     <string name="alarm_on_toast">Stand Up Alarm On!</string>
     <string name="alarm_off_toast">Stand Up Alarm Off!</string>
@@ -22,4 +26,7 @@
     <string name="notification_text">תוכן ההודעה</string>
     <string name="alarm_off">Alarm off</string>
     <string name="alarm_on">Alarm on</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="define">הגדר</string>
 </resources>

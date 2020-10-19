@@ -71,16 +71,28 @@ public class GraphSettings extends Fragment {
 
     }
 
-    TextView textView;
+    TextView textView1, textView2;
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-         textView = view.findViewById(R.id.date);
-        Button button = view.findViewById(R.id.defineButton);
-        button.setOnClickListener(new View.OnClickListener() {
+         textView1 = view.findViewById(R.id.date1);
+        textView2 = view.findViewById(R.id.date2);
+
+        Button button1 = view.findViewById(R.id.defineButton1);
+        Button button2 = view.findViewById(R.id.defineButton2);
+
+        button1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                showDateDialog(textView, view);
+                showDateDialog(textView1, view);
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                showDateDialog(textView2, view);
             }
         });
         super.onViewCreated(view, savedInstanceState);

@@ -116,8 +116,9 @@ public class GraphSettings extends Fragment {
                 calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                 Toast.makeText(view.getContext(), "Hour", Toast.LENGTH_SHORT).show();
                 showTimeDialog(textView, view);
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd");
-//                textView.setText(simpleDateFormat.format(calendar));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                //simpleDateFormat.for
+                textView.setText(simpleDateFormat.format(calendar.getTime()));
             }
         };
         new DatePickerDialog(view.getContext(), dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -133,7 +134,7 @@ public class GraphSettings extends Fragment {
                 calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 calendar.set(Calendar.MINUTE,minute);
                 SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm");
-                time_in.setText(simpleDateFormat.format(calendar.getTime()));
+                time_in.setText(time_in.getText() + " " + simpleDateFormat.format(calendar.getTime()));
             }
         };
 

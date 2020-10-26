@@ -1,5 +1,7 @@
-package com.android.fundamentals.standup;
+package com.android.fundamentals.standup.views;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.fundamentals.standup.ApplicationSettings;
+import com.android.fundamentals.standup.R;
+import com.android.fundamentals.standup.communication.CommService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,6 +41,16 @@ public class MainMenu extends AppCompatActivity {
 
         account = GoogleSignIn.getLastSignedInAccount(this);
         welcome_tv.setText(  "ברוכים הבאים, " + account.getGivenName());
+    }
+
+    @Override
+    protected void onResume() {
+        if (!isMyServiceRunning(CommService.class)){
+            Intent intent = new Intent(this, CommService.class);
+
+            startForegroundService(intent);
+        }
+        super.onResume();
     }
 
     public void signOut(View view) {
@@ -70,5 +85,15 @@ public class MainMenu extends AppCompatActivity {
     public void MeasuresActivity(View view) {
         Intent intent = new Intent(MainMenu.this, Measures.class);
         startActivity(intent);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

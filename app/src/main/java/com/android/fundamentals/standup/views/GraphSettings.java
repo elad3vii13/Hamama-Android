@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup;
+package com.android.fundamentals.standup.views;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.android.fundamentals.standup.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Measures">
+    tools:context=".views.Measures">
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:id="@+id/fragGraph"
-        class="com.android.fundamentals.standup.Graph"></fragment>
+        class="com.android.fundamentals.standup.views.Graph"></fragment>
 
     <fragment
         android:id="@+id/fragGraphSettings"
-        class="com.android.fundamentals.standup.GraphSettings"
+        class="com.android.fundamentals.standup.views.GraphSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fragGraph"

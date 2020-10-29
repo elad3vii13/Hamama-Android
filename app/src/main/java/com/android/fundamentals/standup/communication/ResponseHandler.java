@@ -4,26 +4,22 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 public class ResponseHandler implements  Response.Listener<String>, Response.ErrorListener{
+    ServerResultHandler listener;
+    int recipient;
 
-    GraphResultHandler listener;
-
-    public ResponseHandler() {
-        //this.listener = listener;
+    public ResponseHandler(ServerResultHandler listener, int recipient) {
+        this.listener = listener;
+        this.recipient = recipient;
     }
 
     public void onResponse(String response) {
-        JSONArray result = null;
-        try {
-            result = new JSONArray(response);
-            Log.i("ResponseHandler", Integer.toString(result.length()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonElement result = JsonParser.parseString(response);
+        listener.onNewResult(result, recipient);
     }
 
     public void onErrorResponse(VolleyError error) {
@@ -31,7 +27,7 @@ public class ResponseHandler implements  Response.Listener<String>, Response.Err
         System.out.println(error.toString());
     }
 
-    public interface GraphResultHandler {
-        public void onNewResult();
+    public interface ServerResultHandler {
+        public void onNewResult(JsonElement result, int recipient);
     }
 }

@@ -15,8 +15,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonElement;
 
-public class CommService extends Service {
+import org.json.JSONObject;
+
+public class CommService extends Service implements ResponseHandler.ServerResultHandler {
     static RequestQueue queue;
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
@@ -25,13 +28,12 @@ public class CommService extends Service {
     public CommService() {
     }
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (queue== null)
             queue = Volley.newRequestQueue(this);
         initForeground();
-        new CommThread().start();
+        new CommThread("", 1).start();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -66,16 +68,29 @@ public class CommService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private StringRequest createRequest(String url){
-        ResponseHandler rph = new ResponseHandler();
+    private StringRequest createRequest(String url, int recipient){
+        ResponseHandler rph = new ResponseHandler(this, recipient);
         StringRequest request = new StringRequest(Request.Method.GET, url, rph, rph);
         return request;
     }
 
+    @Override
+    public void onNewResult(JsonElement result, int recipient) {
+
+    }
+
     private class CommThread extends Thread{
+        String url;
+        int recipient;
+        public CommThread(String url, int recipient){
+            this.url = url;
+            this.recipient = recipient;
+        }
+
         @Override
         public void run() {
-            queue.add(createRequest("http://10.0.2.2:8080/mobile?cmd=measure&sid=1&from=123&to=12345"));
+            queue.add(createRequest(url, recipient));
+//            queue.add(createRequest("http://10.0.2.2:8080/mobile?cmd=measure&sid=1&from=123&to=12345"));
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

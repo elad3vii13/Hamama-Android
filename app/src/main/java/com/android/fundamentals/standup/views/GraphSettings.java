@@ -141,4 +141,7 @@ public class GraphSettings extends Fragment {
         new TimePickerDialog(view.getContext(),timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
     }
 
+    public interface GraphSettingsListener{
+        public void onNewGraphSettings(Bundle bundle);
+    }
 }

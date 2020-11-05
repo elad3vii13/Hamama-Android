@@ -46,8 +46,8 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onResume() {
         if (!isMyServiceRunning(CommService.class)){
-            Intent intent = new Intent(this, CommService.class);
-            startForegroundService(intent);
+//            Intent intent = new Intent(this, CommService.class);
+//            startForegroundService(intent);
         }
         super.onResume();
     }

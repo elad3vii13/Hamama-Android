@@ -38,25 +38,25 @@
         android:orientation="horizontal">
 
     <Button
-        android:id="@+id/defineButton1"
+        android:id="@+id/btnFrom"
         android:text="@string/defineStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></Button>
 
         <TextView
-            android:id="@+id/date1"
+            android:id="@+id/tvFrom"
             android:text="@string/time"
             android:layout_width="100dp"
             android:layout_height="wrap_content"></TextView>
 
         <Button
-            android:id="@+id/defineButton2"
+            android:id="@+id/btnTo"
             android:text="@string/defineStop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></Button>
 
         <TextView
-            android:id="@+id/date2"
+            android:id="@+id/tvTo"
             android:text="@string/time"
             android:layout_width="100dp"
             android:layout_height="wrap_content"></TextView>

@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 
 import com.android.fundamentals.standup.views.MainMenu;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
     static RequestQueue queue;
+    public static final int MEASURE_RECIPIENT =1;
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
     final int NOTIFICATION_ID1=1;
@@ -33,8 +35,27 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         if (queue== null)
             queue = Volley.newRequestQueue(this);
         initForeground();
-        new CommThread("", 1).start();
+        Bundle bundle = intent.getExtras();
+        int recipient = bundle.getInt("recipient");
+        String url = buildUrlFromBundle(bundle);
+        new CommThread(url, recipient).start();
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private String buildUrlFromBundle(Bundle bundle) {
+        int recipient = bundle.getInt("recipient");
+        String result = "";
+
+         switch(recipient) {
+             case MEASURE_RECIPIENT:
+                 long from = bundle.getLong("from");
+                 long to = bundle.getLong("to");
+                 int sensor = bundle.getInt("sensor");
+                 result = "http://10.0.2.2:8080/mobile?cmd=measure&sid=" + sensor + "&from=" + from + "&to=" + to;
+                 break;
+         }
+
+        return result;
     }
 
     private void initForeground(){

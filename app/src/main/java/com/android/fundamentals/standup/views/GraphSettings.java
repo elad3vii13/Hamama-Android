@@ -2,6 +2,7 @@ package com.android.fundamentals.standup.views;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,14 +12,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -33,10 +39,15 @@ public class GraphSettings extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    TextView textView1, textView2;
+    Button refreshBtn;
+    Long from, to;
+    GraphSettingsListener graphSettingsListener;
+    int sensorId = 1;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Spinner spinner;
 
     public GraphSettings() {
         // Required empty public constructor
@@ -61,6 +72,13 @@ public class GraphSettings extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.graphSettingsListener = (GraphSettingsListener) context;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -71,16 +89,51 @@ public class GraphSettings extends Fragment {
 
     }
 
-    TextView textView1, textView2;
+    private void ArrayAdapter(String[] SensorsArray, int[] secondArray){
+
+    }
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-         textView1 = view.findViewById(R.id.date1);
-        textView2 = view.findViewById(R.id.date2);
+        textView1 = view.findViewById(R.id.tvFrom);
+        textView2 = view.findViewById(R.id.tvTo);
+        refreshBtn = view.findViewById(R.id.btnRefresh);
+        spinner = view.findViewById(R.id.spProperties);
 
-        Button button1 = view.findViewById(R.id.defineButton1);
-        Button button2 = view.findViewById(R.id.defineButton2);
+        String[] sensors = new String[]{"one","two","three"};
+        final int[] array = new int[]{1,2,3};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,sensors);
+        spinner.setAdapter(adapter);
+        //spinner.setSelection(positionDefault);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // DO SOMETHING = array[i];
+                // Toast.makeText(getContext(), array[i] + " ! ", Toast.LENGTH_SHORT).show();
+                sensorId = array[i];
+            }
 
-        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("from", from);
+                bundle.putLong("to", to);
+                bundle.putInt("sensor",sensorId);
+                graphSettingsListener.onNewGraphSettings(bundle);
+            }
+        });
+
+        Button btnFrom = view.findViewById(R.id.btnFrom);
+        Button btnTo = view.findViewById(R.id.btnTo);
+
+        btnFrom.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
@@ -88,7 +141,7 @@ public class GraphSettings extends Fragment {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        btnTo.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
@@ -114,8 +167,8 @@ public class GraphSettings extends Fragment {
                 calendar.set(Calendar.YEAR,year);
                 calendar.set(Calendar.MONTH,month);
                 calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                Toast.makeText(view.getContext(), "Hour", Toast.LENGTH_SHORT).show();
-                showTimeDialog(textView, view);
+                //Toast.makeText(view.getContext(), "Hour", Toast.LENGTH_SHORT).show();
+                showTimeDialog(textView, view, calendar);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 //simpleDateFormat.for
                 textView.setText(simpleDateFormat.format(calendar.getTime()));
@@ -124,9 +177,7 @@ public class GraphSettings extends Fragment {
         new DatePickerDialog(view.getContext(), dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void showTimeDialog(final TextView time_in, View view) {
-        final Calendar calendar=Calendar.getInstance();
-
+    private void showTimeDialog(final TextView time_in, View view, final Calendar calendar) {
         TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
 
             @Override
@@ -135,6 +186,12 @@ public class GraphSettings extends Fragment {
                 calendar.set(Calendar.MINUTE,minute);
                 SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm");
                 time_in.setText(time_in.getText() + " " + simpleDateFormat.format(calendar.getTime()));
+                if(time_in.getId() == R.id.tvFrom) {
+                    from = calendar.getTimeInMillis();
+                }
+                else {
+                    to = calendar.getTimeInMillis();
+                }
             }
         };
 

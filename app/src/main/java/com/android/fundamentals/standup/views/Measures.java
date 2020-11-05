@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.android.fundamentals.standup.R;
 import com.android.fundamentals.standup.communication.CommService;
 
-public class Measures extends AppCompatActivity {
+public class Measures extends AppCompatActivity implements GraphSettings.GraphSettingsListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +15,11 @@ public class Measures extends AppCompatActivity {
         setContentView(R.layout.activity_measures);
     }
 
-    private void getData(){
+    @Override
+    public void onNewGraphSettings(Bundle bundle) {
         Intent intent = new Intent(this, CommService.class);
+        bundle.putInt("recipient", CommService.MEASURE_RECIPIENT);
+        intent.putExtras(bundle);
         startForegroundService(intent);
     }
 }

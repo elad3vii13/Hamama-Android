@@ -18,7 +18,7 @@ public class ResponseHandler implements  Response.Listener<String>, Response.Err
     }
 
     public void onResponse(String response) {
-        JsonElement result = JsonParser.parseString(response);
+        JsonElement result = JsonParser.parseString(response).;
         listener.onNewResult(result, recipient);
     }
 

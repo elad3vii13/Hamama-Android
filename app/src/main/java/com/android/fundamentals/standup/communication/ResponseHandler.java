@@ -18,8 +18,8 @@ public class ResponseHandler implements  Response.Listener<String>, Response.Err
     }
 
     public void onResponse(String response) {
-        JsonElement result = JsonParser.parseString(response).;
-        listener.onNewResult(result, recipient);
+    //    JsonElement result = JsonParser.parseString(response);
+        listener.onNewResult(response, recipient);
     }
 
     public void onErrorResponse(VolleyError error) {
@@ -28,6 +28,6 @@ public class ResponseHandler implements  Response.Listener<String>, Response.Err
     }
 
     public interface ServerResultHandler {
-        public void onNewResult(JsonElement result, int recipient);
+        public void onNewResult(String result, int recipient);
     }
 }

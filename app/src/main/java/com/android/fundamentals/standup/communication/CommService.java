@@ -23,6 +23,7 @@ import org.json.JSONObject;
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
     static RequestQueue queue;
     public static final int MEASURE_RECIPIENT =1;
+    public static final String NEW_MEASURE_DATA = "com.elad.project.commservice.new_measure_data";
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
     final int NOTIFICATION_ID1=1;
@@ -96,8 +97,15 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     }
 
     @Override
-    public void onNewResult(JsonElement result, int recipient) {
-
+    public void onNewResult(String result, int recipient) {
+        switch(recipient) {
+            case MEASURE_RECIPIENT:
+                Intent intent = new Intent();
+                intent.setAction(NEW_MEASURE_DATA);
+                intent.putExtra("dataResponse", result);
+                sendBroadcast(intent);
+                break;
+        }
     }
 
     private class CommThread extends Thread{

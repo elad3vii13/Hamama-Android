@@ -44,7 +44,7 @@ public class ApplicationSettings extends AppCompatActivity {
     long interval = AlarmManager.INTERVAL_DAY;
     // Notification ID.
     private static final int NOTIFICATION_ID = 0;
-    // Notification channel ID.
+    // Notification channel IfD.
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
     private NotificationManager mNotificationManager;

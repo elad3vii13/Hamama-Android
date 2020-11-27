@@ -23,9 +23,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
+import com.thomashaertel.widget.MultiSpinner;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -47,7 +49,7 @@ public class GraphSettings extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Spinner spinner;
+    MultiSpinner spinner;
 
     public GraphSettings() {
         // Required empty public constructor
@@ -93,31 +95,99 @@ public class GraphSettings extends Fragment {
 
     }
 
+//    @Override
+//    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+//        textView1 = view.findViewById(R.id.tvFrom);
+//        textView2 = view.findViewById(R.id.tvTo);
+//        refreshBtn = view.findViewById(R.id.btnRefresh);
+//        spinner = view.findViewById(R.id.spProperties);
+//
+//        String[] sensors = new String[]{"one","two","three"};
+//        final int[] array = new int[]{1,2,3};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,sensors);
+//        spinner.setAdapter(adapter);
+//        //spinner.setSelection(positionDefault);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                // DO SOMETHING = array[i];
+//                // Toast.makeText(getContext(), array[i] + " ! ", Toast.LENGTH_SHORT).show();
+//                sensorId = array[i];
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//        refreshBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putLong("from", from);
+//                bundle.putLong("to", to);
+//                bundle.putInt("sensor",sensorId);
+//                graphSettingsListener.onNewGraphSettings(bundle);
+//            }
+//        });
+//
+//        Button btnFrom = view.findViewById(R.id.btnFrom);
+//        Button btnTo = view.findViewById(R.id.btnTo);
+//
+//        btnFrom.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onClick(View v) {
+//                showDateDialog(textView1, view);
+//            }
+//        });
+//
+//        btnTo.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onClick(View v) {
+//                showDateDialog(textView2, view);
+//            }
+//        });
+//        super.onViewCreated(view, savedInstanceState);
+//    }
+
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        final int[] array = new int[]{1,2,3};
         textView1 = view.findViewById(R.id.tvFrom);
         textView2 = view.findViewById(R.id.tvTo);
         refreshBtn = view.findViewById(R.id.btnRefresh);
         spinner = view.findViewById(R.id.spProperties);
 
-        String[] sensors = new String[]{"one","two","three"};
-        final int[] array = new int[]{1,2,3};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,sensors);
-        spinner.setAdapter(adapter);
-        //spinner.setSelection(positionDefault);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // DO SOMETHING = array[i];
-                // Toast.makeText(getContext(), array[i] + " ! ", Toast.LENGTH_SHORT).show();
-                sensorId = array[i];
-            }
+        ArrayAdapter<String> adapter;
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+        // create spinner list elements
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        adapter.add("one");
+        adapter.add("two");
+        adapter.add("three");
 
+        MultiSpinner.MultiSpinnerListener onSelectedListener = new MultiSpinner.MultiSpinnerListener() {
+            public void onItemsSelected(boolean[] selected) {
+               // sensorId = array[i];
+               System.out.println(Arrays.toString(selected));
             }
-        });
+        };
+
+        // get spinner and set adapter
+        spinner.setAdapter(adapter, false, onSelectedListener);
+
+        // set initial selection
+        boolean[] selectedItems = new boolean[adapter.getCount()];
+        selectedItems[1] = true; // select second item
+        spinner.setSelected(selectedItems);
+
+
+        ////////////////////////////
+
 
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +220,9 @@ public class GraphSettings extends Fragment {
         });
         super.onViewCreated(view, savedInstanceState);
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

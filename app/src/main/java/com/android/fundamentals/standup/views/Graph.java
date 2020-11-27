@@ -1,6 +1,7 @@
 package com.android.fundamentals.standup.views;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -17,12 +18,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +37,7 @@ import java.util.List;
  */
 public class Graph extends Fragment {
 
+    private long minDate,maxDate;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -80,7 +84,18 @@ private  DataPoint[] buildGraphData(JsonElement responseData){
 
     List<Measure> mList = new Gson().fromJson(responseData, listType);
     DataPoint[] result = new  DataPoint[mList.size()];
+    Calendar calendar = Calendar.getInstance();
+    minDate = mList.get(0).getDate();
+    maxDate = mList.get(0).getDate();
+
     for (int i = 0; i<mList.size();i++){
+        if(mList.get(i).getDate() > maxDate)
+            maxDate = mList.get(i).getDate();
+
+        if(mList.get(i).getDate() < minDate)
+            minDate = mList.get(i).getDate();
+
+        calendar.setTimeInMillis(mList.get(i).getDate());
         result[i] = new DataPoint(mList.get(i).getDate(), mList.get(i).getValue());
     }
 
@@ -93,53 +108,75 @@ public void refreshGraph(String newData){
     // you can directly pass Date objects to DataPoint-Constructor
     // this will convert the Date to double via Date#getTime()
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>(newdp);
-
+    graph.removeAllSeries();
+    graph.addSeries(series);
+//    graph.init();
 //
-    // styling
+//    // styling
     series.setTitle("graph 1");
     series.setColor(Color.RED);
     series.setDrawDataPoints(true);
     series.setDataPointsRadius(10);
     series.setThickness(8);
-
-    // set date label formatter
+//
+//    // set date label formatter
     graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
     graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-    // set manual x bounds to have nice steps
-  //  graph.getViewport().setMinX(d1.getTime());
- //   graph.getViewport().setMaxX(d3.getTime());
+//
+//     //set manual x bounds to have nice steps
+    graph.getViewport().setMaxX(maxDate);
+    graph.getViewport().setMinX(minDate);
     graph.getViewport().setXAxisBoundsManual(true);
-
-    // as we use dates as labels, the human rounding to nice readable numbers
-    // is not necessary
+//
+//    // as we use dates as labels, the human rounding to nice readable numbers
+//    // is not necessary
     graph.getGridLabelRenderer().setHumanRounding(false);
-
+//
     graph.getViewport().setScrollable(true); // enables horizontal scrolling
     graph.getViewport().setScrollableY(true); // enables vertical scrolling
     graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
     graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
-
-    graph.addSeries(series);
 }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//
         this.graph = (GraphView) view.findViewById(R.id.graph);
 
-        // generate Dates
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
+//
+//        // generate Dates
+//        Calendar calendar = Calendar.getInstance();
+//        Date d1 = calendar.getTime();
+//        calendar.add(Calendar.DATE, 1);
+//        Date d2 = calendar.getTime();
+//        calendar.add(Calendar.DATE, 1);
+//        Date d3 = calendar.getTime();
 
-
-
-
+//        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+//
+//        // you can directly pass Date objects to DataPoint-Constructor
+//        // this will convert the Date to double via Date#getTime()
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+//                new DataPoint(d1, 1),
+//                new DataPoint(d2, 2),
+//                new DataPoint(d3, 3)
+//        });
+//
+//        graph.addSeries(series);
+//
+//        // set date label formatter
+//        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity().getApplicationContext()));
+//        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+////
+//        // set manual x bounds to have nice steps
+//        graph.getViewport().setMinX(d1.getTime());
+//        graph.getViewport().setMaxX(d3.getTime());
+//        graph.getViewport().setXAxisBoundsManual(true);
+//
+//        // as we use dates as labels, the human rounding to nice readable numbers
+//        // is not necessary
+//        graph.getGridLabelRenderer().setHumanRounding(false);
+        //graph.removeAllSeries();
     }
 
     @Override

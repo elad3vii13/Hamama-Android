@@ -29,6 +29,7 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,8 +82,10 @@ public class Graph extends Fragment {
 
 private  DataPoint[] buildGraphData(JsonElement responseData){
     Type listType = new TypeToken<List<Measure>>() {}.getType();
-
-    List<Measure> mList = new Gson().fromJson(responseData, listType);
+    Properties data = new Gson().fromJson(responseData, Properties.class);
+    String measures = data.getProperty("measures");
+    String sensorName = data.getProperty("name");
+    List<Measure> mList = new Gson().fromJson(measures, listType);
     DataPoint[] result = new  DataPoint[mList.size()];
     Calendar calendar = Calendar.getInstance();
     minDate = mList.get(0).getDate();

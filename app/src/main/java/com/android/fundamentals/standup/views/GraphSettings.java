@@ -23,10 +23,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
+import com.android.fundamentals.standup.model.Sensor;
 import com.thomashaertel.widget.MultiSpinner;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -50,6 +52,7 @@ public class GraphSettings extends Fragment {
     private String mParam1;
     private String mParam2;
     MultiSpinner spinner;
+    ArrayList<Sensor> sensors;
 
     public GraphSettings() {
         // Required empty public constructor
@@ -87,12 +90,9 @@ public class GraphSettings extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     private void ArrayAdapter(String[] SensorsArray, int[] secondArray){
-
     }
 
 //    @Override
@@ -153,7 +153,6 @@ public class GraphSettings extends Fragment {
 //        super.onViewCreated(view, savedInstanceState);
 //    }
 
-
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         final int[] array = new int[]{1,2,3};
@@ -164,11 +163,15 @@ public class GraphSettings extends Fragment {
 
         ArrayAdapter<String> adapter;
 
+        sensors = new ArrayList<Sensor>();
+        sensors.add(new Sensor(1, "temperature", "celsius"));
+        sensors.add(new Sensor(2, "humidity", "%"));
+
         // create spinner list elements
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
-        adapter.add("one");
-        adapter.add("two");
-        adapter.add("three");
+        for(int i=0; i<sensors.size(); i++ ){
+            adapter.add(sensors.get(i).getName());
+        }
 
         MultiSpinner.MultiSpinnerListener onSelectedListener = new MultiSpinner.MultiSpinnerListener() {
             public void onItemsSelected(boolean[] selected) {
@@ -185,18 +188,20 @@ public class GraphSettings extends Fragment {
         selectedItems[1] = true; // select second item
         spinner.setSelected(selectedItems);
 
-
-        ////////////////////////////
-
-
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                graphSettingsListener.clearGraph();
                 Bundle bundle = new Bundle();
                 bundle.putLong("from", from);
                 bundle.putLong("to", to);
-                bundle.putInt("sensor",sensorId);
-                graphSettingsListener.onNewGraphSettings(bundle);
+                boolean[] selected = spinner.getSelected();
+                for (int i=0; i<selected.length; i++){
+                    if (selected[i]) {
+                        bundle.putInt("sensor", (int) sensors.get(i).getId());
+                        graphSettingsListener.onNewGraphSettings(bundle);
+                    }
+                }
             }
         });
 
@@ -220,9 +225,6 @@ public class GraphSettings extends Fragment {
         });
         super.onViewCreated(view, savedInstanceState);
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -271,7 +273,13 @@ public class GraphSettings extends Fragment {
         new TimePickerDialog(view.getContext(),timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     public interface GraphSettingsListener{
         public void onNewGraphSettings(Bundle bundle);
+        public void clearGraph();
     }
 }

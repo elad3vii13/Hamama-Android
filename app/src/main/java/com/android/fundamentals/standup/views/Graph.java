@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -30,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +50,7 @@ public class Graph extends Fragment {
     private String mParam1;
     private String mParam2;
     GraphView graph;
+    static final int[] colors = new int[]{Color.RED, Color.BLUE, Color.GREEN};
 
     public Graph() {
         // Required empty public constructor
@@ -80,13 +83,14 @@ public class Graph extends Fragment {
         }
     }
 
-private  DataPoint[] buildGraphData(JsonElement responseData){
+private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     Type listType = new TypeToken<List<Measure>>() {}.getType();
     Properties data = new Gson().fromJson(responseData, Properties.class);
     String measures = data.getProperty("measures");
     String sensorName = data.getProperty("name");
+    int sid = Integer.parseInt(data.getProperty("id"));
     List<Measure> mList = new Gson().fromJson(measures, listType);
-    DataPoint[] result = new  DataPoint[mList.size()];
+    DataPoint[] dp = new  DataPoint[mList.size()];
     Calendar calendar = Calendar.getInstance();
     minDate = mList.get(0).getDate();
     maxDate = mList.get(0).getDate();
@@ -99,42 +103,50 @@ private  DataPoint[] buildGraphData(JsonElement responseData){
             minDate = mList.get(i).getDate();
 
         calendar.setTimeInMillis(mList.get(i).getDate());
-        result[i] = new DataPoint(mList.get(i).getDate(), mList.get(i).getValue());
+        dp[i] = new DataPoint(mList.get(i).getDate(), mList.get(i).getValue());
     }
 
-    return result;
-}
-public void refreshGraph(String newData){
-    JsonElement jsonData = JsonParser.parseString(newData);
-    DataPoint[] newdp = buildGraphData(jsonData);
-
-    // you can directly pass Date objects to DataPoint-Constructor
-    // this will convert the Date to double via Date#getTime()
-    LineGraphSeries<DataPoint> series = new LineGraphSeries<>(newdp);
-    graph.removeAllSeries();
-    graph.addSeries(series);
-//    graph.init();
-//
-//    // styling
-    series.setTitle("graph 1");
-    series.setColor(Color.RED);
+    LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
+    series.setTitle(sensorName);
+    series.setColor(colors[sid-1]);
     series.setDrawDataPoints(true);
     series.setDataPointsRadius(10);
     series.setThickness(8);
-//
-//    // set date label formatter
+
+    return series;
+}
+
+public void clearGraph(){
+        graph.removeAllSeries();
+}
+
+public void refreshGraph(String newData){
+    JsonElement jsonData = JsonParser.parseString(newData);
+    LineGraphSeries<DataPoint> series = buildGraphData(jsonData);
+
+    // you can directly pass Date objects to DataPoint-Constructor
+    // this will convert the Date to double via Date#getTime()
+
+    // graph.removeAllSeries();
+    graph.addSeries(series);
+    // graph.init();
+    // styling
+
+    graph.getLegendRenderer().setVisible(true);
+    graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
+    // set date label formatter
     graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
     graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-//
-//     //set manual x bounds to have nice steps
+
+    //set manual x bounds to have nice steps
     graph.getViewport().setMaxX(maxDate);
     graph.getViewport().setMinX(minDate);
     graph.getViewport().setXAxisBoundsManual(true);
-//
-//    // as we use dates as labels, the human rounding to nice readable numbers
-//    // is not necessary
+
+    // as we use dates as labels, the human rounding to nice readable numbers
+    // is not necessary
     graph.getGridLabelRenderer().setHumanRounding(false);
-//
     graph.getViewport().setScrollable(true); // enables horizontal scrolling
     graph.getViewport().setScrollableY(true); // enables vertical scrolling
     graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
@@ -146,7 +158,6 @@ public void refreshGraph(String newData){
         super.onViewCreated(view, savedInstanceState);
         this.graph = (GraphView) view.findViewById(R.id.graph);
 
-//
 //        // generate Dates
 //        Calendar calendar = Calendar.getInstance();
 //        Date d1 = calendar.getTime();

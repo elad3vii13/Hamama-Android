@@ -14,6 +14,7 @@ import com.android.fundamentals.standup.communication.CommService;
 
 public class Measures extends AppCompatActivity implements GraphSettings.GraphSettingsListener {
 
+    FragmentManager fmgr;
     DataResultReceiver drr;
 
     @Override
@@ -31,7 +32,14 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
     }
 
     @Override
+    public void clearGraph() {
+        Graph graphFrag = (Graph) fmgr.findFragmentById(R.id.fragGraph);
+        graphFrag.clearGraph();
+    }
+
+    @Override
     protected void onResume() {
+        fmgr = getFragmentManager();
         drr = new DataResultReceiver();
         IntentFilter intentFilter = new IntentFilter(CommService.NEW_MEASURE_DATA);
         registerReceiver(drr, intentFilter);
@@ -51,7 +59,6 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
             switch(intent.getAction()){
                 case CommService.NEW_MEASURE_DATA:
                     String  mdata = intent.getStringExtra("dataResponse");
-                    FragmentManager fmgr =getFragmentManager();
                     Graph graphFrag = (Graph) fmgr.findFragmentById(R.id.fragGraph);
                     graphFrag.refreshGraph(mdata);
                     break;

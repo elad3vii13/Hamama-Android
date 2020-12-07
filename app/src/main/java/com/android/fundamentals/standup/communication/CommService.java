@@ -22,8 +22,11 @@ import org.json.JSONObject;
 
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
     static RequestQueue queue;
-    public static final int MEASURE_RECIPIENT =1;
-    public static final String NEW_MEASURE_DATA = "com.elad.project.commservice.new_measure_data";
+    public static final int GRAPH_RECIPIENT =1;
+    public static final int MEASURE_RECIPIENT = 2;
+    public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
+    public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
+
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
     final int NOTIFICATION_ID1=1;
@@ -48,11 +51,15 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         String result = "";
 
          switch(recipient) {
-             case MEASURE_RECIPIENT:
+             case GRAPH_RECIPIENT:
                  long from = bundle.getLong("from");
                  long to = bundle.getLong("to");
                  int sensor = bundle.getInt("sensor");
                  result = "http://10.0.2.2:8080/mobile?cmd=measure&sid=" + sensor + "&from=" + from + "&to=" + to;
+                 break;
+
+             case MEASURE_RECIPIENT:
+                 result = "http://10.0.2.2:8080/mobile?cmd=sensors";
                  break;
          }
 
@@ -99,11 +106,14 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     @Override
     public void onNewResult(String result, int recipient) {
         switch(recipient) {
-            case MEASURE_RECIPIENT:
+            case GRAPH_RECIPIENT:
                 Intent intent = new Intent();
-                intent.setAction(NEW_MEASURE_DATA);
+                intent.setAction(NEW_GRAPH_DATA);
                 intent.putExtra("dataResponse", result);
                 sendBroadcast(intent);
+                break;
+
+            case MEASURE_RECIPIENT:
                 break;
         }
     }

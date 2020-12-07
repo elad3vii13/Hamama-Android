@@ -164,8 +164,8 @@ public class GraphSettings extends Fragment {
         ArrayAdapter<String> adapter;
 
         sensors = new ArrayList<Sensor>();
-        sensors.add(new Sensor(1, "temperature", "celsius"));
-        sensors.add(new Sensor(2, "humidity", "%"));
+        //sensors.add(new Sensor(1, "temperature", "celsius"));
+        //sensors.add(new Sensor(2, "humidity", "%"));
 
         // create spinner list elements
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
@@ -276,10 +276,13 @@ public class GraphSettings extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
     }
 
     public interface GraphSettingsListener{
         public void onNewGraphSettings(Bundle bundle);
         public void clearGraph();
+        public  ArrayList<Sensor> getSensorsList();
     }
 }

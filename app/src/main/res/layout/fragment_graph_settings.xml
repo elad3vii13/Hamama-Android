@@ -23,6 +23,7 @@
             android:layout_weight="1"
             android:text="@string/spProperties"></TextView>
         <com.thomashaertel.widget.MultiSpinner
+            android:enabled="false"
             android:id="@+id/spProperties"
             android:layout_alignParentBottom="true"
             android:layout_width="100dp"

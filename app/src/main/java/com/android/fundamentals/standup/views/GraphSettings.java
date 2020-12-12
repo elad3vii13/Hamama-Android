@@ -1,6 +1,7 @@
 package com.android.fundamentals.standup.views;
 
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,19 +153,11 @@ public class GraphSettings extends Fragment {
 //        super.onViewCreated(view, savedInstanceState);
 //    }
 
-    @Override
-    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        final int[] array = new int[]{1,2,3};
-        textView1 = view.findViewById(R.id.tvFrom);
-        textView2 = view.findViewById(R.id.tvTo);
-        refreshBtn = view.findViewById(R.id.btnRefresh);
-        spinner = view.findViewById(R.id.spProperties);
-
+    public void initGraphSettings(){
         ArrayAdapter<String> adapter;
+        sensors = graphSettingsListener.getSensorsList();
 
-        sensors = new ArrayList<Sensor>();
-        //sensors.add(new Sensor(1, "temperature", "celsius"));
-        //sensors.add(new Sensor(2, "humidity", "%"));
+        if(sensors == null) return;
 
         // create spinner list elements
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
@@ -175,8 +167,8 @@ public class GraphSettings extends Fragment {
 
         MultiSpinner.MultiSpinnerListener onSelectedListener = new MultiSpinner.MultiSpinnerListener() {
             public void onItemsSelected(boolean[] selected) {
-               // sensorId = array[i];
-               System.out.println(Arrays.toString(selected));
+                // sensorId = array[i];
+                System.out.println(Arrays.toString(selected));
             }
         };
 
@@ -187,6 +179,18 @@ public class GraphSettings extends Fragment {
         boolean[] selectedItems = new boolean[adapter.getCount()];
         selectedItems[1] = true; // select second item
         spinner.setSelected(selectedItems);
+        spinner.setEnabled(true);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        final int[] array = new int[]{1,2,3};
+        textView1 = view.findViewById(R.id.tvFrom);
+        textView2 = view.findViewById(R.id.tvTo);
+        refreshBtn = view.findViewById(R.id.btnRefresh);
+        spinner = view.findViewById(R.id.spProperties);
+
+
 
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,6 +279,7 @@ public class GraphSettings extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        initGraphSettings();
         super.onActivityCreated(savedInstanceState);
 
 

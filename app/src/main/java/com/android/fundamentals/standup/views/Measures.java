@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -22,6 +23,8 @@ import java.util.List;
 
 public class Measures extends AppCompatActivity implements GraphSettings.GraphSettingsListener {
 
+    String jsonSensors;
+    SharedPreferences sh1;
     FragmentManager fmgr;
     DataResultReceiver drr;
     ArrayList<Sensor> sensors;
@@ -30,6 +33,8 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measures);
+
+         sh1 = getSharedPreferences("Shared", MODE_PRIVATE);
     }
 
     @Override
@@ -53,24 +58,34 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
 
     @Override
     protected void onResume() {
+        this.jsonSensors = sh1.getString("Sensors", "");
+        if(jsonSensors.isEmpty()) {
+            refreshSensorsList();
+        }
+
         fmgr = getFragmentManager();
         drr = new DataResultReceiver();
         IntentFilter intentFilter = new IntentFilter(CommService.NEW_GRAPH_DATA);
         intentFilter.addAction(CommService.NEW_SENSORS_LIST);
         registerReceiver(drr, intentFilter);
+        super.onResume();
+    }
+
+    private void refreshSensorsList(){
         Intent intent = new Intent(this, CommService.class);
         //get sensors list from server
         Bundle bundle = new Bundle();
         bundle.putInt("recipient", CommService.MEASURE_RECIPIENT);
         intent.putExtras(bundle);
         startForegroundService(intent);
-
-        super.onResume();
     }
 
     @Override
     protected void onPause() {
         unregisterReceiver(drr);
+        SharedPreferences.Editor editor = sh1.edit();
+        editor.putString("Sensors", jsonSensors);
+        editor.commit();
         super.onPause();
     }
 
@@ -85,9 +100,11 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
                     graphFrag.refreshGraph(mdata);
                     break;
                 case CommService.NEW_SENSORS_LIST:
-                    String  sensorsData = intent.getStringExtra("dataResponse");
+                    jsonSensors = intent.getStringExtra("dataResponse");
                     Type listType = new TypeToken<List<Sensor>>() {}.getType();
-                    sensors = new Gson().fromJson(sensorsData, listType);
+                    sensors = new Gson().fromJson(jsonSensors, listType);
+                    GraphSettings fragGraphSettings = (GraphSettings) fmgr.findFragmentById(R.id.fragGraphSettings);
+                    fragGraphSettings.initGraphSettings();
                     break;
                 default:
                     break;

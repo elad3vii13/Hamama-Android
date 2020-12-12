@@ -114,6 +114,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 break;
 
             case MEASURE_RECIPIENT:
+                Intent intent2 = new Intent();
+                intent2.setAction(NEW_SENSORS_LIST);
+                intent2.putExtra("dataResponse", result);
+                sendBroadcast(intent2);
                 break;
         }
     }
@@ -129,7 +133,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         @Override
         public void run() {
             queue.add(createRequest(url, recipient));
-//            queue.add(createRequest("http://10.0.2.2:8080/mobile?cmd=measure&sid=1&from=123&to=12345"));
+
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

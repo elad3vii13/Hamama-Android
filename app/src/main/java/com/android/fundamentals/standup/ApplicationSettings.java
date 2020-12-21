@@ -202,6 +202,4 @@ public class ApplicationSettings extends AppCompatActivity {
             mNotificationManager.createNotificationChannel(notificationChannel);
         }
     }
-
-
 }

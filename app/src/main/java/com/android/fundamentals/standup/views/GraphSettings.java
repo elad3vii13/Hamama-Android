@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -43,8 +44,10 @@ public class GraphSettings extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    ProgressBar progressBar;
     TextView textView1, textView2;
     Button refreshBtn;
+    Button updateSensors;
     Long from, to;
     GraphSettingsListener graphSettingsListener;
     int sensorId = 1;
@@ -182,6 +185,12 @@ public class GraphSettings extends Fragment {
         spinner.setEnabled(true);
     }
 
+//    public void onCatchSensorsList(){
+//        progressBar.setVisibility(View.INVISIBLE);
+//        Toast.makeText(getContext(), "Updated Sensor List", Toast.LENGTH_SHORT).show();
+//        updateSensors.setEnabled(true);
+//    }
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         final int[] array = new int[]{1,2,3};
@@ -189,8 +198,19 @@ public class GraphSettings extends Fragment {
         textView2 = view.findViewById(R.id.tvTo);
         refreshBtn = view.findViewById(R.id.btnRefresh);
         spinner = view.findViewById(R.id.spProperties);
+        updateSensors = view.findViewById(R.id.updateSensors);
+        progressBar = view.findViewById(R.id.progressBar2);
 
-
+        updateSensors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
+                updateSensors.setEnabled(false);
+//                Measures measures = new Measures();
+//                measures.refreshSensorsList();
+            }
+        });
 
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,9 +301,8 @@ public class GraphSettings extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         initGraphSettings();
         super.onActivityCreated(savedInstanceState);
-
-
     }
+
 
     public interface GraphSettingsListener{
         public void onNewGraphSettings(Bundle bundle);

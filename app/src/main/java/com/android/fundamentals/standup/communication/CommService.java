@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import com.android.fundamentals.standup.views.GraphSettings;
 import com.android.fundamentals.standup.views.MainMenu;
 import com.android.fundamentals.standup.R;
 import com.android.volley.Request;

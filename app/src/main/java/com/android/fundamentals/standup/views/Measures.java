@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
 import com.android.fundamentals.standup.communication.CommService;
@@ -71,7 +72,7 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
         super.onResume();
     }
 
-    private void refreshSensorsList(){
+    public void refreshSensorsList(){
         Intent intent = new Intent(this, CommService.class);
         //get sensors list from server
         Bundle bundle = new Bundle();
@@ -105,6 +106,7 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
                     sensors = new Gson().fromJson(jsonSensors, listType);
                     GraphSettings fragGraphSettings = (GraphSettings) fmgr.findFragmentById(R.id.fragGraphSettings);
                     fragGraphSettings.initGraphSettings();
+                    // Call the function that stops the animation
                     break;
                 default:
                     break;

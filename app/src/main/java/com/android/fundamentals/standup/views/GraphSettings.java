@@ -160,6 +160,9 @@ public class GraphSettings extends Fragment {
         ArrayAdapter<String> adapter;
         sensors = graphSettingsListener.getSensorsList();
 
+        progressBar.setVisibility(View.INVISIBLE);
+        updateSensors.setEnabled(true);
+
         if(sensors == null) return;
 
         // create spinner list elements
@@ -185,12 +188,6 @@ public class GraphSettings extends Fragment {
         spinner.setEnabled(true);
     }
 
-//    public void onCatchSensorsList(){
-//        progressBar.setVisibility(View.INVISIBLE);
-//        Toast.makeText(getContext(), "Updated Sensor List", Toast.LENGTH_SHORT).show();
-//        updateSensors.setEnabled(true);
-//    }
-
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         final int[] array = new int[]{1,2,3};
@@ -207,8 +204,7 @@ public class GraphSettings extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
                 Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
                 updateSensors.setEnabled(false);
-//                Measures measures = new Measures();
-//                measures.refreshSensorsList();
+                graphSettingsListener.refreshSensorListFromServer();
             }
         });
 
@@ -299,7 +295,7 @@ public class GraphSettings extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        initGraphSettings();
+    //    initGraphSettings();
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -308,5 +304,6 @@ public class GraphSettings extends Fragment {
         public void onNewGraphSettings(Bundle bundle);
         public void clearGraph();
         public  ArrayList<Sensor> getSensorsList();
+        public void refreshSensorListFromServer();
     }
 }

@@ -24,10 +24,11 @@ import java.util.List;
 
 public class Measures extends AppCompatActivity implements GraphSettings.GraphSettingsListener {
 
-    String jsonSensors;
+
     SharedPreferences sh1;
     FragmentManager fmgr;
     DataResultReceiver drr;
+    String jsonSensors;
     ArrayList<Sensor> sensors;
 
     @Override
@@ -58,13 +59,25 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
     }
 
     @Override
+    public void refreshSensorListFromServer() {
+        refreshSensorsList();
+    }
+
+    @Override
     protected void onResume() {
+        fmgr = getFragmentManager();
         this.jsonSensors = sh1.getString("Sensors", "");
         if(jsonSensors.isEmpty()) {
             refreshSensorsList();
         }
+        else{
+            Type listType = new TypeToken<List<Sensor>>() {}.getType();
+            sensors = new Gson().fromJson(jsonSensors, listType);
+            GraphSettings fragGraphSettings = (GraphSettings) fmgr.findFragmentById(R.id.fragGraphSettings);
+            fragGraphSettings.initGraphSettings();
+        }
 
-        fmgr = getFragmentManager();
+
         drr = new DataResultReceiver();
         IntentFilter intentFilter = new IntentFilter(CommService.NEW_GRAPH_DATA);
         intentFilter.addAction(CommService.NEW_SENSORS_LIST);
@@ -84,9 +97,6 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
     @Override
     protected void onPause() {
         unregisterReceiver(drr);
-        SharedPreferences.Editor editor = sh1.edit();
-        editor.putString("Sensors", jsonSensors);
-        editor.commit();
         super.onPause();
     }
 
@@ -106,7 +116,6 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
                     sensors = new Gson().fromJson(jsonSensors, listType);
                     GraphSettings fragGraphSettings = (GraphSettings) fmgr.findFragmentById(R.id.fragGraphSettings);
                     fragGraphSettings.initGraphSettings();
-                    // Call the function that stops the animation
                     break;
                 default:
                     break;

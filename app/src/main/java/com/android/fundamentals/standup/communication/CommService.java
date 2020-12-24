@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -115,6 +116,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 break;
 
             case MEASURE_RECIPIENT:
+                SharedPreferences sh1 = getSharedPreferences("Shared", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sh1.edit();
+                editor.putString("Sensors", result);
+                editor.commit();
                 Intent intent2 = new Intent();
                 intent2.setAction(NEW_SENSORS_LIST);
                 intent2.putExtra("dataResponse", result);

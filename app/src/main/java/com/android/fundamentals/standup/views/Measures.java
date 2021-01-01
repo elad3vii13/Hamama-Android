@@ -24,7 +24,6 @@ import java.util.List;
 
 public class Measures extends AppCompatActivity implements GraphSettings.GraphSettingsListener {
 
-
     SharedPreferences sh1;
     FragmentManager fmgr;
     DataResultReceiver drr;

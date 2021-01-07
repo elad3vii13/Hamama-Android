@@ -26,6 +26,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     static RequestQueue queue;
     public static final int GRAPH_RECIPIENT =1;
     public static final int MEASURE_RECIPIENT = 2;
+    public static final int LOG_RECIPIENT = 3;
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
 

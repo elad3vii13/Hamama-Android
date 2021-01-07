@@ -6,10 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".views.Log">
 
-    <TextView
-        android:layout_centerInParent="true"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <fragment
+        tools:layout="@layout/fragment_log"
+        android:id="@+id/logFrag"
+        class="com.android.fundamentals.standup.logFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log Activity"/>
+        android:layout_alignParentTop="true"></fragment>
+
+    <fragment
+        android:id="@+id/fragGraphSettings"
+        class="com.android.fundamentals.standup.views.GraphSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logFrag"
+        tools:layout="@layout/fragment_graph_settings"
+        android:layout_alignParentBottom="true"></fragment>
 </RelativeLayout>

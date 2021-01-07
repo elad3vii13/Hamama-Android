@@ -22,7 +22,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Measures extends AppCompatActivity implements GraphSettings.GraphSettingsListener {
+public class Measures extends AppCompatActivity implements GraphSettings.SettingsListener {
 
     SharedPreferences sh1;
     FragmentManager fmgr;
@@ -39,7 +39,7 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
     }
 
     @Override
-    public void onNewGraphSettings(Bundle bundle) {
+    public void onNewSettings(Bundle bundle) {
         Intent intent = new Intent(this, CommService.class);
         bundle.putInt("recipient", CommService.GRAPH_RECIPIENT);
         intent.putExtras(bundle);
@@ -47,7 +47,7 @@ public class Measures extends AppCompatActivity implements GraphSettings.GraphSe
     }
 
     @Override
-    public void clearGraph() {
+    public void clearDisplay() {
         Graph graphFrag = (Graph) fmgr.findFragmentById(R.id.fragGraph);
         graphFrag.clearGraph();
     }

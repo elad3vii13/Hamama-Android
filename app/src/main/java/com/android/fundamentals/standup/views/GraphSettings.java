@@ -49,7 +49,7 @@ public class GraphSettings extends Fragment {
     Button refreshBtn;
     Button updateSensors;
     Long from, to;
-    GraphSettingsListener graphSettingsListener;
+    SettingsListener graphSettingsListener;
     int sensorId = 1;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -83,7 +83,7 @@ public class GraphSettings extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        this.graphSettingsListener = (GraphSettingsListener) context;
+        this.graphSettingsListener = (SettingsListener) context;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class GraphSettings extends Fragment {
 //                bundle.putLong("from", from);
 //                bundle.putLong("to", to);
 //                bundle.putInt("sensor",sensorId);
-//                graphSettingsListener.onNewGraphSettings(bundle);
+//                graphSettingsListener.onNewSettings(bundle);
 //            }
 //        });
 //
@@ -211,7 +211,7 @@ public class GraphSettings extends Fragment {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                graphSettingsListener.clearGraph();
+                graphSettingsListener.clearDisplay();
                 Bundle bundle = new Bundle();
                 bundle.putLong("from", from);
                 bundle.putLong("to", to);
@@ -219,7 +219,7 @@ public class GraphSettings extends Fragment {
                 for (int i=0; i<selected.length; i++){
                     if (selected[i]) {
                         bundle.putInt("sensor", (int) sensors.get(i).getId());
-                        graphSettingsListener.onNewGraphSettings(bundle);
+                        graphSettingsListener.onNewSettings(bundle);
                     }
                 }
             }
@@ -300,9 +300,9 @@ public class GraphSettings extends Fragment {
     }
 
 
-    public interface GraphSettingsListener{
-        public void onNewGraphSettings(Bundle bundle);
-        public void clearGraph();
+    public interface SettingsListener{
+        public void onNewSettings(Bundle bundle);
+        public void clearDisplay();
         public  ArrayList<Sensor> getSensorsList();
         public void refreshSensorListFromServer();
     }

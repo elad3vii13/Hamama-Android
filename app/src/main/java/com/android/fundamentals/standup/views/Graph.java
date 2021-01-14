@@ -128,7 +128,7 @@ public void refreshGraph(String newData){
 
     // you can directly pass Date objects to DataPoint-Constructor
     // this will convert the Date to double via Date#getTime()
-
+    graph.removeAllSeries();
     // graph.removeAllSeries();
     graph.addSeries(series);
     // graph.init();

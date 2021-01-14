@@ -1,6 +1,9 @@
 package com.android.fundamentals.standup.model;
 
 public class LogEntry {
+    public final static String INFO = "info";
+    public final static String WARNING = "warning";
+    public final static String ERROR = "error";
     long time;
     String priority;
     String message;

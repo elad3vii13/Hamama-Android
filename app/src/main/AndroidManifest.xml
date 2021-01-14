@@ -19,7 +19,7 @@
             android:exported="true" />
 
         <activity android:name=".views.Measures" />
-        <activity android:name=".views.Settings" />
+        <activity android:name=".views.BoardSettings" />
         <activity android:name=".views.Log" />
         <activity android:name=".views.MainMenu" />
         <activity android:name=".views.LoginActivity">

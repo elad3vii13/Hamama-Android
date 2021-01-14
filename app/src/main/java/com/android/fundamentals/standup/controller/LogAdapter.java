@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,8 @@ import com.android.fundamentals.standup.model.LogEntry;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
@@ -60,6 +62,22 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
 
         public void bindData(LogEntry entry){
             expMessage.setText(entry.getMessage());
+            String dateString = DateFormat.format("dd/MM/yyyy", new Date(entry.getTime())).toString();
+            tvTime.setText(dateString);
+
+            switch (entry.getPriority()){
+                case LogEntry.INFO:
+                    imgPriority.setImageDrawable(context.getResources().getDrawable(R.drawable.info));
+                    break;
+
+                case LogEntry.WARNING:
+                    imgPriority.setImageDrawable(context.getResources().getDrawable(R.drawable.warning));
+                    break;
+
+                case LogEntry.ERROR:
+                    imgPriority.setImageDrawable(context.getResources().getDrawable(R.drawable.error));
+                    break;
+            }
         }
     }
 }

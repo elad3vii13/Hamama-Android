@@ -15,8 +15,8 @@
         android:layout_alignParentTop="true"></fragment>
 
     <fragment
-        android:id="@+id/fragGraphSettings"
-        class="com.android.fundamentals.standup.views.GraphSettings"
+        android:id="@+id/fragDisplaySettings"
+        class="com.android.fundamentals.standup.views.DisplaySettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/logFrag"

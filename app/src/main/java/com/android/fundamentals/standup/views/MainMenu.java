@@ -76,7 +76,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void SettingsActivity(View view) {
-        Intent intent = new Intent(MainMenu.this, Settings.class);
+        Intent intent = new Intent(MainMenu.this, BoardSettings.class);
         startActivity(intent);
     }
 

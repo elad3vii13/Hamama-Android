@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,33 +13,35 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
 import com.android.fundamentals.standup.model.Sensor;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thomashaertel.widget.MultiSpinner;
 
-import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GraphSettings#newInstance} factory method to
+ * Use the {@link DisplaySettings#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GraphSettings extends Fragment {
+public class DisplaySettings extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,9 +58,11 @@ public class GraphSettings extends Fragment {
     private String mParam1;
     private String mParam2;
     MultiSpinner spinner;
+
+
     ArrayList<Sensor> sensors;
 
-    public GraphSettings() {
+    public DisplaySettings() {
         // Required empty public constructor
     }
 
@@ -70,8 +75,8 @@ public class GraphSettings extends Fragment {
      * @return A new instance of fragment GraphSettings.
      */
     // TODO: Rename and change types and number of parameters
-    public static GraphSettings newInstance(String param1, String param2) {
-        GraphSettings fragment = new GraphSettings();
+    public static DisplaySettings newInstance(String param1, String param2) {
+        DisplaySettings fragment = new DisplaySettings();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -93,68 +98,9 @@ public class GraphSettings extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
-    private void ArrayAdapter(String[] SensorsArray, int[] secondArray){
-    }
-
-//    @Override
-//    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-//        textView1 = view.findViewById(R.id.tvFrom);
-//        textView2 = view.findViewById(R.id.tvTo);
-//        refreshBtn = view.findViewById(R.id.btnRefresh);
-//        spinner = view.findViewById(R.id.spProperties);
-//
-//        String[] sensors = new String[]{"one","two","three"};
-//        final int[] array = new int[]{1,2,3};
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,sensors);
-//        spinner.setAdapter(adapter);
-//        //spinner.setSelection(positionDefault);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                // DO SOMETHING = array[i];
-//                // Toast.makeText(getContext(), array[i] + " ! ", Toast.LENGTH_SHORT).show();
-//                sensorId = array[i];
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//        refreshBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putLong("from", from);
-//                bundle.putLong("to", to);
-//                bundle.putInt("sensor",sensorId);
-//                graphSettingsListener.onNewSettings(bundle);
-//            }
-//        });
-//
-//        Button btnFrom = view.findViewById(R.id.btnFrom);
-//        Button btnTo = view.findViewById(R.id.btnTo);
-//
-//        btnFrom.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onClick(View v) {
-//                showDateDialog(textView1, view);
-//            }
-//        });
-//
-//        btnTo.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onClick(View v) {
-//                showDateDialog(textView2, view);
-//            }
-//        });
-//        super.onViewCreated(view, savedInstanceState);
-//    }
 
     public void initGraphSettings(){
         ArrayAdapter<String> adapter;
@@ -188,6 +134,14 @@ public class GraphSettings extends Fragment {
         spinner.setEnabled(true);
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_graph_settings, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         final int[] array = new int[]{1,2,3};
@@ -204,7 +158,7 @@ public class GraphSettings extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
                 Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
                 updateSensors.setEnabled(false);
-                graphSettingsListener.refreshSensorListFromServer();
+                graphSettingsListener.refreshSensorsList();
             }
         });
 
@@ -246,12 +200,6 @@ public class GraphSettings extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_graph_settings, container, false);
-    }
 
     private void showDateDialog(final TextView textView, View view) {
         final Calendar calendar = Calendar.getInstance();
@@ -295,7 +243,6 @@ public class GraphSettings extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    //    initGraphSettings();
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -304,6 +251,6 @@ public class GraphSettings extends Fragment {
         public void onNewSettings(Bundle bundle);
         public void clearDisplay();
         public  ArrayList<Sensor> getSensorsList();
-        public void refreshSensorListFromServer();
+        public void refreshSensorsList();
     }
 }

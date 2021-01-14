@@ -11,16 +11,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.android.fundamentals.standup.views.GraphSettings;
 import com.android.fundamentals.standup.views.MainMenu;
 import com.android.fundamentals.standup.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonElement;
-
-import org.json.JSONObject;
 
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
     static RequestQueue queue;

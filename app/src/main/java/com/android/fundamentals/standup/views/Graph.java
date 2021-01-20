@@ -89,23 +89,31 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     Type listType = new TypeToken<List<Measure>>() {}.getType();
     Properties data = new Gson().fromJson(responseData, Properties.class);
     String measures = data.getProperty("measures");
+
+    System.out.println(measures);
+
     String sensorName = data.getProperty("name");
     int sid = Integer.parseInt(data.getProperty("id"));
     List<Measure> mList = new Gson().fromJson(measures, listType);
+
+    //mList.add(new Measure(1610702750, 30));
+
+    System.out.println(mList.get(0).getTime() + " | Value: " + mList.get(0).getValue());
+
     DataPoint[] dp = new  DataPoint[mList.size()];
     Calendar calendar = Calendar.getInstance();
-    minDate = mList.get(0).getDate();
-    maxDate = mList.get(0).getDate();
+    minDate = mList.get(0).getTime();
+    maxDate = mList.get(0).getTime();
 
     for (int i = 0; i<mList.size();i++){
-        if(mList.get(i).getDate() > maxDate)
-            maxDate = mList.get(i).getDate();
+        if(mList.get(i).getTime() > maxDate)
+            maxDate = mList.get(i).getTime();
 
-        if(mList.get(i).getDate() < minDate)
-            minDate = mList.get(i).getDate();
+        if(mList.get(i).getTime() < minDate)
+            minDate = mList.get(i).getTime();
 
-        calendar.setTimeInMillis(mList.get(i).getDate());
-        dp[i] = new DataPoint(mList.get(i).getDate(), mList.get(i).getValue());
+        calendar.setTimeInMillis(mList.get(i).getTime());
+        dp[i] = new DataPoint(mList.get(i).getTime(), mList.get(i).getValue());
     }
 
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
@@ -115,6 +123,7 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     series.setDataPointsRadius(10);
     series.setThickness(8);
 
+    //////
     return series;
 }
 

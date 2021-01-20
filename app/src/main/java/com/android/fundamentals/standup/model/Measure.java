@@ -2,10 +2,15 @@ package com.android.fundamentals.standup.model;
 
 public class Measure {
 //    int sid;
-    long date;
+    long time;
     double value;
 
     public Measure() {
+    }
+
+    public Measure(long time, double value) {
+        this.value = value;
+        this.time = time;
     }
 
 //    public int getSensorID() {
@@ -16,13 +21,19 @@ public class Measure {
 //        this.sid = sensorID;
 //    }
 
-    public long getDate() {
-        return date;
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long d) {
+        this.time = d;
     }
 
     public void setTimestamp(long timestamp) {
-        this.date = timestamp;
+        this.time = timestamp;
     }
+
+
 
     public double getValue() {
         return value;

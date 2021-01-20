@@ -41,10 +41,6 @@ public class Log extends SensorsBasedActivity {
 
     }
 
-
-
-
-
     @Override
     protected void onResume() {
         super.onResume();

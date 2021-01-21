@@ -166,12 +166,12 @@ public class DisplaySettings extends Fragment {
             @Override
             public void onClick(View v) {
                 graphSettingsListener.clearDisplay();
-                Bundle bundle = new Bundle();
-                bundle.putLong("from", from);
-                bundle.putLong("to", to);
                 boolean[] selected = spinner.getSelected();
                 for (int i=0; i<selected.length; i++){
                     if (selected[i]) {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("from", from);
+                        bundle.putLong("to", to);
                         bundle.putInt("sensor", (int) sensors.get(i).getId());
                         graphSettingsListener.onNewSettings(bundle);
                     }

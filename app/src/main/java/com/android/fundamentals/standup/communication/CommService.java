@@ -34,10 +34,16 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
+        super.onCreate();
+        initForeground();
         if (queue== null)
             queue = Volley.newRequestQueue(this);
-        initForeground();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
         Bundle bundle = intent.getExtras();
         int recipient = bundle.getInt("recipient");
         String url = buildUrlFromBundle(bundle);

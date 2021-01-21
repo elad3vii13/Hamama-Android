@@ -19,7 +19,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SensorsBasedActivity extends AppCompatActivity implements DisplaySettings.SettingsListener  {
+public abstract class SensorsBasedActivity extends AppCompatActivity implements DisplaySettings.SettingsListener  {
 
     String jsonSensors;
     ArrayList<Sensor> sensors;
@@ -78,10 +78,7 @@ public class SensorsBasedActivity extends AppCompatActivity implements DisplaySe
         startForegroundService(intent);
     }
 
-    @Override
-    public void clearDisplay() {
 
-    }
 
 
     protected void onBroadcastReceived(Intent intent) {

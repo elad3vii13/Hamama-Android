@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
 import com.android.fundamentals.standup.model.Measure;
@@ -90,20 +91,25 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     Properties data = new Gson().fromJson(responseData, Properties.class);
     String measures = data.getProperty("measures");
 
-    System.out.println(measures);
-
     String sensorName = data.getProperty("name");
     int sid = Integer.parseInt(data.getProperty("id"));
     List<Measure> mList = new Gson().fromJson(measures, listType);
 
-    //mList.add(new Measure(1610702750, 30));
-
-    System.out.println(mList.get(0).getTime() + " | Value: " + mList.get(0).getValue());
-
     DataPoint[] dp = new  DataPoint[mList.size()];
+
+    if(mList.size() == 0) {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
+        series.setTitle(sensorName);
+        series.setColor(colors[sid-1]);
+        Toast.makeText(getActivity(), "No Data Found for current settings", Toast.LENGTH_SHORT).show();
+        return series;
+    }
+
     Calendar calendar = Calendar.getInstance();
-    minDate = mList.get(0).getTime();
-    maxDate = mList.get(0).getTime();
+    if (minDate==0)
+        minDate = mList.get(0).getTime();
+    if (maxDate == 0)
+        maxDate = mList.get(0).getTime();
 
     for (int i = 0; i<mList.size();i++){
         if(mList.get(i).getTime() > maxDate)
@@ -123,12 +129,30 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     series.setDataPointsRadius(10);
     series.setThickness(8);
 
-    //////
     return series;
 }
 
 public void clearGraph(){
         graph.removeAllSeries();
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        graph.getLegendRenderer().setPadding(100);
+
+        // set date label formatter
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        // as we use dates as labels, the human rounding to nice readable numbers
+        // is not necessary
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getViewport().setScrollable(true); // enables horizontal scrolling
+        graph.getViewport().setScrollableY(true); // enables vertical scrolling
+        graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+        graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+        minDate =0;
+        maxDate=0;
 }
 
 public void refreshGraph(String newData){
@@ -137,12 +161,12 @@ public void refreshGraph(String newData){
 
     // you can directly pass Date objects to DataPoint-Constructor
     // this will convert the Date to double via Date#getTime()
-    graph.removeAllSeries();
+
     // graph.removeAllSeries();
     graph.addSeries(series);
     // graph.init();
     // styling
-
+/*******
     graph.getLegendRenderer().setVisible(true);
     graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
@@ -150,9 +174,14 @@ public void refreshGraph(String newData){
     graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
     graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
+ ******/
+
     //set manual x bounds to have nice steps
-    graph.getViewport().setMaxX(maxDate);
-    graph.getViewport().setMinX(minDate);
+    if (maxDate!=0)
+        graph.getViewport().setMaxX(maxDate);
+    if (minDate!=0)
+        graph.getViewport().setMinX(minDate);
+    /***
     graph.getViewport().setXAxisBoundsManual(true);
 
     // as we use dates as labels, the human rounding to nice readable numbers
@@ -162,6 +191,7 @@ public void refreshGraph(String newData){
     graph.getViewport().setScrollableY(true); // enables vertical scrolling
     graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
     graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+     ***/
 }
 
     @Override

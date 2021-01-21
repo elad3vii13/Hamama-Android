@@ -38,6 +38,12 @@ public class Measures extends SensorsBasedActivity {
     }
 
     @Override
+    public void clearDisplay() {
+        Graph graphFrag = (Graph) fmgr.findFragmentById(R.id.fragGraph);
+        graphFrag.clearGraph();
+    }
+
+    @Override
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
             case CommService.NEW_GRAPH_DATA:

@@ -60,6 +60,7 @@ public class DisplaySettings extends Fragment {
     private String mParam2;
     MultiSpinner spinner;
     Spinner spinnerPriority;
+    String[] priorityLevels = {"", "error", "warning", "info"};
 
 
     ArrayList<Sensor> sensors;
@@ -188,15 +189,19 @@ public class DisplaySettings extends Fragment {
             @Override
             public void onClick(View v) {
                 graphSettingsListener.clearDisplay();
+                Bundle bundle = new Bundle();
                 boolean[] selected = spinner.getSelected();
                 for (int i=0; i<selected.length; i++){
                     if (selected[i]) {
-                        Bundle bundle = new Bundle();
                         bundle.putLong("from", from);
                         bundle.putLong("to", to);
                         bundle.putInt("sensor", (int) sensors.get(i).getId());
                         graphSettingsListener.onNewSettings(bundle);
                     }
+                }
+                if (graphSettingsListener.showPriority()) {
+                    String priorityLevel = priorityLevels[spinnerPriority.getSelectedItemPosition()];
+                    if (!priorityLevel.isEmpty()) bundle.putString("priority", priorityLevel);
                 }
             }
         });

@@ -70,7 +70,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  long to1 = bundle.getLong("to");
 
                  int sensor1 = bundle.getInt("sensor", -1);
-                 result = "http://10.0.2.2:8080/mobile?cmd=log&from=" + "from" + "&to=" + to1;
+                 result = "http://10.0.2.2:8080/mobile?cmd=log&from=" + from1 + "&to=" + to1;
                  if (sensor1!= -1) result += "&sid=" + sensor1;
                  if (priority!= null) result += "&priority=" + priority;
                  break;

@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -62,6 +63,8 @@ public class Log extends SensorsBasedActivity {
     protected void onResume() {
         super.onResume();
         fmgr = getFragmentManager();
+        IntentFilter intentFilter = new IntentFilter(CommService.NEW_LOG_DATA);
+        registerReceiver(drr, intentFilter);
     }
 
 

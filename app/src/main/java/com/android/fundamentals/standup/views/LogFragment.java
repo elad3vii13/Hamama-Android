@@ -1,21 +1,23 @@
-package com.android.fundamentals.standup;
+package com.android.fundamentals.standup.views;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.fundamentals.standup.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link logFragment#newInstance} factory method to
+ * Use the {@link LogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class logFragment extends Fragment {
+public class LogFragment extends Fragment {
     private RecyclerView rvlog;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +28,7 @@ public class logFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public logFragment() {
+    public LogFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +41,8 @@ public class logFragment extends Fragment {
      * @return A new instance of fragment logFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static logFragment newInstance(String param1, String param2) {
-        logFragment fragment = new logFragment();
+    public static LogFragment newInstance(String param1, String param2) {
+        LogFragment fragment = new LogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

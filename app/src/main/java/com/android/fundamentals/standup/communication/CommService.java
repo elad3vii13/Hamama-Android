@@ -25,6 +25,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int LOG_RECIPIENT = 3;
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
+    public static final String NEW_LOG_DATA = "com.elad.project.commservice.new_log_data";
 
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
@@ -118,6 +119,14 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 sendBroadcast(intent);
                 break;
 
+            case LOG_RECIPIENT: {
+                Intent intent3 = new Intent();
+                intent3.setAction(NEW_LOG_DATA);
+                intent3.putExtra("dataResponse", result);
+                sendBroadcast(intent3);
+                break;
+            }
+
             case MEASURE_RECIPIENT:
                 SharedPreferences sh1 = getSharedPreferences("Shared", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sh1.edit();
@@ -128,6 +137,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 intent2.putExtra("dataResponse", result);
                 sendBroadcast(intent2);
                 break;
+
         }
     }
 

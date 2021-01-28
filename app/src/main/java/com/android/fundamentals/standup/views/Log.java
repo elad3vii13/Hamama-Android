@@ -37,6 +37,22 @@ public class Log extends SensorsBasedActivity {
     }
 
     @Override
+    protected void onBroadcastReceived(Intent intent) {
+        switch(intent.getAction()){
+            case CommService.NEW_LOG_DATA:
+                String  mdata = intent.getStringExtra("dataResponse");
+                LogFragment logFrag = (LogFragment) fmgr.findFragmentById(R.id.logFrag);
+                logFrag.refreshLog(mdata);
+                break;
+            case CommService.NEW_SENSORS_LIST:
+                super.onBroadcastReceived(intent);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void clearDisplay() {
 
     }

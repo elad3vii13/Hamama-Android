@@ -32,7 +32,10 @@ public class Log extends SensorsBasedActivity {
         super.onNewSettings(bundle);
     }
 
-
+    @Override
+    public boolean showPriority() {
+        return true;
+    }
 
     @Override
     protected void onBroadcastReceived(Intent intent) {

@@ -49,6 +49,11 @@ public class Measures extends SensorsBasedActivity {
     }
 
     @Override
+    public boolean showPriority() {
+        return false;
+    }
+
+    @Override
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
             case CommService.NEW_GRAPH_DATA:

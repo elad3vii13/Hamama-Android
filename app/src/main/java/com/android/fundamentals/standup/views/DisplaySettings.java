@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -57,7 +58,8 @@ public class DisplaySettings extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    MultiSpinner spinner, spinnerPriority;
+    MultiSpinner spinner;
+    Spinner spinnerPriority;
 
 
     ArrayList<Sensor> sensors;
@@ -139,28 +141,17 @@ public class DisplaySettings extends Fragment {
 
 
         // create spinner list elements
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
-        adapter.add("תקלה");
-        adapter.add("אזהרה");
-        adapter.add("אינפורמציה");
-
-        MultiSpinner.MultiSpinnerListener onSelectedListener2 = new MultiSpinner.MultiSpinnerListener() {
-            public void onItemsSelected(boolean[] selected) {
-                // sensorId = array[i];
-                //System.out.println(Arrays.toString(selected));
-            }
-        };
+        ArrayAdapter<String> adapter2;
+        adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        adapter2.add("כולם");
+        adapter2.add("תקלה");
+        adapter2.add("אזהרה");
+        adapter2.add("אינפורמציה");
 
         // get spinner and set adapter
-        spinnerPriority.setAdapter(adapter, false, onSelectedListener2);
+        spinnerPriority.setAdapter(adapter2);
 
-        // set initial selection
-        boolean[] selectedItems2 = new boolean[adapter.getCount()];
-        selectedItems[0] = true; // select second item
-        selectedItems[1] = true; // select second item
-        selectedItems[2] = true; // select second item
-
-        spinnerPriority.setSelected(selectedItems);
+        spinnerPriority.setSelection(0);
         spinnerPriority.setEnabled(true);
     }
 
@@ -179,6 +170,7 @@ public class DisplaySettings extends Fragment {
         textView2 = view.findViewById(R.id.tvTo);
         refreshBtn = view.findViewById(R.id.btnRefresh);
         spinner = view.findViewById(R.id.spProperties);
+        spinnerPriority = view.findViewById(R.id.spPriority);
         updateSensors = view.findViewById(R.id.updateSensors);
         progressBar = view.findViewById(R.id.progressBar2);
 
@@ -274,6 +266,7 @@ public class DisplaySettings extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        spinnerPriority.setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
     }
 
 
@@ -282,5 +275,6 @@ public class DisplaySettings extends Fragment {
         public void clearDisplay();
         public  ArrayList<Sensor> getSensorsList();
         public void refreshSensorsList();
+        public boolean showPriority();
     }
 }

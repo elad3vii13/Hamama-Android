@@ -31,4 +31,5 @@
     <string name="defineStart">הגדר התחלה</string>
     <string name="defineStop">הגדר סיום</string>
     <string name="updateSensors">בדיקת עדכון חיישנים</string>
+    <string name="priorityText">בחירת עדיפות</string>
 </resources>

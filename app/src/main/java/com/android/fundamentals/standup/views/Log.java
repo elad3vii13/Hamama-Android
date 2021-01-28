@@ -28,13 +28,11 @@ public class Log extends SensorsBasedActivity {
 
     @Override
     public void onNewSettings(Bundle bundle) {
-        // call to commService
-        Intent intent = new Intent(this, CommService.class);
-        //get log list from server
         bundle.putInt("recipient", CommService.LOG_RECIPIENT);
-        intent.putExtras(bundle);
-        startForegroundService(intent);
+        super.onNewSettings(bundle);
     }
+
+
 
     @Override
     protected void onBroadcastReceived(Intent intent) {

@@ -29,6 +29,11 @@ public class Measures extends SensorsBasedActivity {
         fmgr = getFragmentManager();
     }
 
+    @Override
+    public void onNewSettings(Bundle bundle) {
+        bundle.putInt("recipient", CommService.GRAPH_RECIPIENT);
+        super.onNewSettings(bundle);
+    }
 
     @Override
     protected void onResume() {

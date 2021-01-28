@@ -73,13 +73,9 @@ public abstract class SensorsBasedActivity extends AppCompatActivity implements 
     @Override
     public void onNewSettings(Bundle bundle) {
         Intent intent = new Intent(this, CommService.class);
-        bundle.putInt("recipient", CommService.GRAPH_RECIPIENT);
         intent.putExtras(bundle);
         startForegroundService(intent);
     }
-
-
-
 
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){

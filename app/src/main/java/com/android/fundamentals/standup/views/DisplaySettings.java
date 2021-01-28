@@ -57,7 +57,7 @@ public class DisplaySettings extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    MultiSpinner spinner;
+    MultiSpinner spinner, spinnerPriority;
 
 
     ArrayList<Sensor> sensors;
@@ -120,7 +120,7 @@ public class DisplaySettings extends Fragment {
         MultiSpinner.MultiSpinnerListener onSelectedListener = new MultiSpinner.MultiSpinnerListener() {
             public void onItemsSelected(boolean[] selected) {
                 // sensorId = array[i];
-                System.out.println(Arrays.toString(selected));
+                //System.out.println(Arrays.toString(selected));
             }
         };
 
@@ -132,6 +132,36 @@ public class DisplaySettings extends Fragment {
         selectedItems[1] = true; // select second item
         spinner.setSelected(selectedItems);
         spinner.setEnabled(true);
+
+
+
+
+
+
+        // create spinner list elements
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        adapter.add("תקלה");
+        adapter.add("אזהרה");
+        adapter.add("אינפורמציה");
+
+        MultiSpinner.MultiSpinnerListener onSelectedListener2 = new MultiSpinner.MultiSpinnerListener() {
+            public void onItemsSelected(boolean[] selected) {
+                // sensorId = array[i];
+                //System.out.println(Arrays.toString(selected));
+            }
+        };
+
+        // get spinner and set adapter
+        spinnerPriority.setAdapter(adapter, false, onSelectedListener2);
+
+        // set initial selection
+        boolean[] selectedItems2 = new boolean[adapter.getCount()];
+        selectedItems[0] = true; // select second item
+        selectedItems[1] = true; // select second item
+        selectedItems[2] = true; // select second item
+
+        spinnerPriority.setSelected(selectedItems);
+        spinnerPriority.setEnabled(true);
     }
 
 

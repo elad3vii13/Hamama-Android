@@ -28,6 +28,8 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
 
      public LogAdapter(Context context, ArrayList<LogEntry> entries){
          this.entries = entries;
+         this.context = context;
+         notifyDataSetChanged();
      }
 
     @NonNull

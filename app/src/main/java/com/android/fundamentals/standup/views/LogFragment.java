@@ -11,6 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.fundamentals.standup.R;
+import com.android.fundamentals.standup.controller.LogAdapter;
+import com.android.fundamentals.standup.model.LogEntry;
+import com.android.fundamentals.standup.model.Measure;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,11 +78,15 @@ public class LogFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         rvlog = view.findViewById(R.id.rvLog);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         super.onViewCreated(view, savedInstanceState);
     }
 
     public void refreshLog(String newData) {
+        Type listType = new TypeToken<List<LogEntry>>() {}.getType();
+        ArrayList<LogEntry> mList = new Gson().fromJson(newData, listType);
+        rvlog.setAdapter(new LogAdapter(getActivity(), mList));
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvlog.setLayoutManager(layoutManager);
     }
 }

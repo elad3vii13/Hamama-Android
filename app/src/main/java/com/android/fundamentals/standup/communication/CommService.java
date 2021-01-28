@@ -48,7 +48,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         int recipient = bundle.getInt("recipient");
         String url = buildUrlFromBundle(bundle);
         new CommThread(url, recipient).start();
-        return super.onStartCommand(intent, flags, startId);
+        return START_REDELIVER_INTENT;
     }
 
     private String buildUrlFromBundle(Bundle bundle) {

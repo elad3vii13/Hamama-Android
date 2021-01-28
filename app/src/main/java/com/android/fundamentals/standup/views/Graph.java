@@ -53,7 +53,7 @@ public class Graph extends Fragment {
     private String mParam1;
     private String mParam2;
     GraphView graph;
-    static final int[] colors = new int[]{Color.RED, Color.BLUE, Color.GREEN};
+    static final int[] colors = new int[]{Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.MAGENTA};
 
     public Graph() {
         // Required empty public constructor
@@ -102,7 +102,7 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
         series.setTitle(sensorName);
         series.setColor(colors[sid-1]);
         Toast.makeText(getActivity(), "No Data Found for current settings", Toast.LENGTH_SHORT).show();
-        return series;
+        return null;
     }
 
     Calendar calendar = Calendar.getInstance();
@@ -134,23 +134,23 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
 
 public void clearGraph(){
         graph.removeAllSeries();
-        graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-        graph.getLegendRenderer().setPadding(100);
-
-        // set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-        graph.getViewport().setXAxisBoundsManual(true);
-
-        // as we use dates as labels, the human rounding to nice readable numbers
-        // is not necessary
-        graph.getGridLabelRenderer().setHumanRounding(false);
-        graph.getViewport().setScrollable(true); // enables horizontal scrolling
-        graph.getViewport().setScrollableY(true); // enables vertical scrolling
-        graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
-        graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+//        graph.getLegendRenderer().setVisible(true);
+//        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+//        graph.getLegendRenderer().setPadding(100);
+//
+//        // set date label formatter
+//        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+//        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+//
+//        graph.getViewport().setXAxisBoundsManual(true);
+//
+//        // as we use dates as labels, the human rounding to nice readable numbers
+//        // is not necessary
+//        graph.getGridLabelRenderer().setHumanRounding(false);
+//        graph.getViewport().setScrollable(true); // enables horizontal scrolling
+//        graph.getViewport().setScrollableY(true); // enables vertical scrolling
+//        graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+//        graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
         minDate =0;
         maxDate=0;
 }
@@ -163,10 +163,10 @@ public void refreshGraph(String newData){
     // this will convert the Date to double via Date#getTime()
 
     // graph.removeAllSeries();
-    graph.addSeries(series);
+    if(series != null)
+        graph.addSeries(series);
     // graph.init();
     // styling
-/*******
     graph.getLegendRenderer().setVisible(true);
     graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
@@ -174,14 +174,18 @@ public void refreshGraph(String newData){
     graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
     graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
- ******/
-
     //set manual x bounds to have nice steps
     if (maxDate!=0)
         graph.getViewport().setMaxX(maxDate);
     if (minDate!=0)
         graph.getViewport().setMinX(minDate);
-    /***
+
+    graph.getViewport().setYAxisBoundsManual(true);
+
+    graph.getViewport().setMaxY(15);
+    graph.getViewport().setMinY(0);
+
+
     graph.getViewport().setXAxisBoundsManual(true);
 
     // as we use dates as labels, the human rounding to nice readable numbers
@@ -191,7 +195,6 @@ public void refreshGraph(String newData){
     graph.getViewport().setScrollableY(true); // enables vertical scrolling
     graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
     graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
-     ***/
 }
 
     @Override

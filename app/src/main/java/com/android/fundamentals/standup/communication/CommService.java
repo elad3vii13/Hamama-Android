@@ -73,6 +73,8 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  result = "http://10.0.2.2:8080/mobile?cmd=log&from=" + from1 + "&to=" + to1;
                  if (sensor1!= -1) result += "&sid=" + sensor1;
                  if (priority!= null) result += "&priority=" + priority;
+                 //System.out.println(result);
+                 String something = result;
                  break;
 
              case MEASURE_RECIPIENT:

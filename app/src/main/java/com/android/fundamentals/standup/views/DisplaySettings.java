@@ -166,7 +166,6 @@ public class DisplaySettings extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        final int[] array = new int[]{1,2,3};
         textView1 = view.findViewById(R.id.tvFrom);
         textView2 = view.findViewById(R.id.tvTo);
         refreshBtn = view.findViewById(R.id.btnRefresh);
@@ -189,19 +188,27 @@ public class DisplaySettings extends Fragment {
             @Override
             public void onClick(View v) {
                 graphSettingsListener.clearDisplay();
-                Bundle bundle = new Bundle();
-                boolean[] selected = spinner.getSelected();
-                for (int i=0; i<selected.length; i++){
-                    if (selected[i]) {
-                        bundle.putLong("from", from);
-                        bundle.putLong("to", to);
-                        bundle.putInt("sensor", (int) sensors.get(i).getId());
-                        graphSettingsListener.onNewSettings(bundle);
-                    }
-                }
-                if (graphSettingsListener.showPriority()) {
+                Bundle bundle;
+                if (graphSettingsListener.showPriority()) { //LOG scenario
+                    bundle = new Bundle();
+                    bundle.putLong("from", from);
+                    bundle.putLong("to", to);
                     String priorityLevel = priorityLevels[spinnerPriority.getSelectedItemPosition()];
-                    if (!priorityLevel.isEmpty()) bundle.putString("priority", priorityLevel);
+                    if (!priorityLevel.isEmpty())
+                        bundle.putString("priority", priorityLevel);
+                    graphSettingsListener.onNewSettings(bundle);
+                }
+                else{
+                    boolean[] selected = spinner.getSelected();
+                    for (int i=0; i<selected.length; i++){
+                        if (selected[i]) {
+                            bundle = new Bundle();
+                            bundle.putLong("from", from);
+                            bundle.putLong("to", to);
+                            bundle.putInt("sensor", (int) sensors.get(i).getId());
+                            graphSettingsListener.onNewSettings(bundle);
+                        }
+                    }
                 }
             }
         });
@@ -271,7 +278,11 @@ public class DisplaySettings extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        spinnerPriority.setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
+//        spinnerPriority.setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
+//        spinner.setVisibility(graphSettingsListener.showPriority()?View.GONE:View.VISIBLE);
+
+        getView().findViewById(R.id.sensorLayout).setVisibility(graphSettingsListener.showPriority()?View.GONE:View.VISIBLE);
+        getView().findViewById(R.id.linearPriority).setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
     }
 
 

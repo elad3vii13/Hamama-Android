@@ -9,7 +9,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
-        android:id="@+id/linear2"
+        android:id="@+id/sensorLayout"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_marginStart="20dp"
@@ -35,8 +35,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/linear2"
-        android:id="@+id/linear3"
+        android:layout_below="@id/sensorLayout"
+        android:id="@+id/linearPriority"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_marginStart="20dp"
@@ -63,7 +63,7 @@
 
     <LinearLayout
         android:id="@+id/layout1"
-        android:layout_below="@id/linear3"
+        android:layout_below="@id/linearPriority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

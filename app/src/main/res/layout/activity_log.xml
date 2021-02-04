@@ -7,11 +7,11 @@
     tools:context=".views.Log">
 
     <fragment
+        android:layout_height="400dp"
         tools:layout="@layout/fragment_log"
         android:id="@+id/logFrag"
         class="com.android.fundamentals.standup.views.LogFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"></fragment>
 
     <fragment

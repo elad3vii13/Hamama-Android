@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
+import com.android.fundamentals.standup.communication.CommService;
 import com.android.fundamentals.standup.views.MainMenu;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,11 +20,27 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BroadcastBasedActivity {
     GoogleSignInOptions gso;
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 0;
+
+    @Override
+    protected void onBroadcastReceived(Intent intent) {
+        switch(intent.getAction()){
+            case CommService.SIGNIN_RESPONSE:
+                String result = intent.getStringExtra("signin_result");
+                if(Integer.parseInt(result) == -1)
+                    Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
+        }
+    }
 
     @Override
     protected void onResume() {

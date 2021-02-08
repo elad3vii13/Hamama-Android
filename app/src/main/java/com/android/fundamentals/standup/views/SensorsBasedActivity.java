@@ -19,17 +19,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SensorsBasedActivity extends AppCompatActivity implements DisplaySettings.SettingsListener  {
+public abstract class SensorsBasedActivity extends BroadcastBasedActivity implements DisplaySettings.SettingsListener  {
 
     String jsonSensors;
     ArrayList<Sensor> sensors;
     SharedPreferences sh1;
     FragmentManager fmgr;
-    DataResultReceiver drr;
 
     @Override
     protected void onResume() {
-        drr = new DataResultReceiver();
         IntentFilter intentFilter = new IntentFilter(CommService.NEW_SENSORS_LIST);
         registerReceiver(drr, intentFilter);
 
@@ -46,12 +44,6 @@ public abstract class SensorsBasedActivity extends AppCompatActivity implements 
             fragDisplaySettings.initGraphSettings();
         }
         super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        unregisterReceiver(drr);
-        super.onPause();
     }
 
     @Override
@@ -90,11 +82,4 @@ public abstract class SensorsBasedActivity extends AppCompatActivity implements 
                 break;
         }
     }
-    public class DataResultReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            onBroadcastReceived(intent);
-        }
-    }
-
 }

@@ -23,9 +23,12 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int GRAPH_RECIPIENT =1;
     public static final int MEASURE_RECIPIENT = 2;
     public static final int LOG_RECIPIENT = 3;
+    public static final int SIGNIN_RECIPIENT = 4;
+
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
     public static final String NEW_LOG_DATA = "com.elad.project.commservice.new_log_data";
+    public static final String SIGNIN_RESPONSE = "com.elad.project.commservice.signin_response";
 
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
@@ -79,6 +82,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
              case MEASURE_RECIPIENT:
                  result = "http://10.0.2.2:8080/mobile?cmd=sensors";
+                 break;
+
+             case SIGNIN_RECIPIENT:
+                 result = "http://10.0.2.2:8080/mobile?cmd=login&nickname"; // nickname and password from bundle
                  break;
          }
 
@@ -151,6 +158,12 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 sendBroadcast(intent2);
                 break;
 
+            case SIGNIN_RECIPIENT:
+                Intent intent4 = new Intent();
+                intent4.setAction(SIGNIN_RESPONSE);
+                intent4.putExtra("signin_result", result);
+                sendBroadcast(intent4);
+                break;
         }
     }
 

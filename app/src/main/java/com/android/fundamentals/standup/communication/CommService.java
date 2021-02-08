@@ -85,7 +85,9 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  break;
 
              case SIGNIN_RECIPIENT:
-                 result = "http://10.0.2.2:8080/mobile?cmd=login&nickname"; // nickname and password from bundle
+                 String nickname = bundle.getString("nickname");
+                 String password = bundle.getString("password");
+                 result = "http://10.0.2.2:8080/mobile?cmd=login&nickname=" + nickname + "&password=" + password; // nickname and password from bundle
                  break;
          }
 

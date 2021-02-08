@@ -17,7 +17,6 @@ import java.util.List;
 public abstract class BroadcastBasedActivity extends AppCompatActivity {
 
     protected abstract void onBroadcastReceived(Intent intent);
-
     DataResultReceiver drr;
 
     @Override

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
@@ -21,10 +23,8 @@ import com.google.android.gms.tasks.Task;
 
 
 public class LoginActivity extends BroadcastBasedActivity {
-    GoogleSignInOptions gso;
-    SignInButton signInButton;
-    GoogleSignInClient mGoogleSignInClient;
-    int RC_SIGN_IN = 0;
+    EditText username_txt, password_txt;
+    Button button;
 
     @Override
     protected void onBroadcastReceived(Intent intent) {
@@ -33,8 +33,10 @@ public class LoginActivity extends BroadcastBasedActivity {
                 String result = intent.getStringExtra("signin_result");
                 if(Integer.parseInt(result) == -1)
                     Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show();
-                else
+                else {
                     Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+                    moveToMainActivity();
+                }
                 break;
 
             default:
@@ -42,104 +44,32 @@ public class LoginActivity extends BroadcastBasedActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account == null) handleLogin();
-        else {
-            moveToMainActivity(account);
-        }
-    }
-
-    private void moveToMainActivity(GoogleSignInAccount account){
+    private void moveToMainActivity(){
         Intent intent = new Intent(this, MainMenu.class);
-        intent.putExtra("account", account);
-        if (gso instanceof Parcelable)
-            intent.putExtra("gso", gso);
         startActivity(intent);
-    }
-
-    private void handleLogin(){
-        signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.sign_in_button:
-                        signIn();
-                        break;
-                    // ...
-                }
-            }
-        });
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        username_txt = findViewById(R.id.username);
+        password_txt = findViewById(R.id.password);
+        button = findViewById(R.id.login_btn);
 
-    }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
+                bundle.putInt("recipient", CommService.SIGNIN_RECIPIENT);
+                bundle.putString("nickname", username_txt.getText().toString());
+                bundle.putString("password", password_txt.getText().toString());
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        // Check for existing Google Sign In account, if the user is already signed in
-//        // the GoogleSignInAccount will be non-null.
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//
-//    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            function();
-
-            // Signed in successfully, show authenticated UI.
-            moveToMainActivity(account);
-
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
-        }
-    }
-
-    public void function() {
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if (acct != null) {
-            String personName = acct.getDisplayName();
-            Toast.makeText(this, "Hello," + personName, Toast.LENGTH_SHORT).show();
-        }
+                Intent intent = new Intent(LoginActivity.this, CommService.class);
+                intent.putExtras(bundle);
+                startForegroundService(intent);
+            }
+        });
     }
 }

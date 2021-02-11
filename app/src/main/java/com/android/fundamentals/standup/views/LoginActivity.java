@@ -41,7 +41,6 @@ public class LoginActivity extends BroadcastBasedActivity {
                     startActivity(intent1);
                 }
                 break;
-
             default:
                 break;
         }

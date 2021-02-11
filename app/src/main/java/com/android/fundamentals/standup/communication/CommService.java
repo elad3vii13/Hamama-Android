@@ -24,11 +24,14 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int MEASURE_RECIPIENT = 2;
     public static final int LOG_RECIPIENT = 3;
     public static final int SIGNIN_RECIPIENT = 4;
+    public static final int SIGNOUT_RECIPIENT = 5;
 
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
     public static final String NEW_LOG_DATA = "com.elad.project.commservice.new_log_data";
     public static final String SIGNIN_RESPONSE = "com.elad.project.commservice.signin_response";
+    public static final String SIGNOUT_RESPONSE = "com.elad.project.commservice.signout_response";
+
 
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
@@ -88,6 +91,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  String nickname = bundle.getString("nickname");
                  String password = bundle.getString("password");
                  result = "http://10.0.2.2:8080/mobile?cmd=login&nickname=" + nickname + "&password=" + password; // nickname and password from bundle
+                 break;
+
+             case SIGNOUT_RECIPIENT:
+                 result = "http://10.0.2.2:8080/mobile?cmd=logout";
                  break;
          }
 
@@ -165,6 +172,12 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 intent4.setAction(SIGNIN_RESPONSE);
                 intent4.putExtra("signin_result", result);
                 sendBroadcast(intent4);
+                break;
+
+            case SIGNOUT_RECIPIENT:
+                Intent intent5 = new Intent();
+                intent5.setAction(SIGNOUT_RESPONSE);
+                sendBroadcast(intent5);
                 break;
         }
     }

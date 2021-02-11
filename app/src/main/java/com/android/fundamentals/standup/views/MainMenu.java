@@ -3,6 +3,7 @@ package com.android.fundamentals.standup.views;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,12 +22,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class MainMenu extends AppCompatActivity {
-    public GoogleSignInClient mGoogleSignInClient;
-
-    GoogleSignInAccount account;
+public class MainMenu extends BroadcastBasedActivity {
     TextView welcome_tv;
     Button signout_btn;
+
+    @Override
+    protected void onBroadcastReceived(Intent intent) {
+        switch(intent.getAction()){
+            case CommService.SIGNOUT_RESPONSE:
+                Intent intent1 = new Intent(MainMenu.this, LoginActivity.class);
+                startActivity(intent1);
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,24 +51,17 @@ public class MainMenu extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        if (!isMyServiceRunning(CommService.class)){
-//            Intent intent = new Intent(this, CommService.class);
-//            startForegroundService(intent);
-        }
         super.onResume();
+        IntentFilter intentFilter = new IntentFilter(CommService.SIGNOUT_RESPONSE);
+        registerReceiver(drr, intentFilter);
     }
 
     public void signOut(View view) {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        Intent intent = new Intent(MainMenu.this, LoginActivity.class);
-                        Toast.makeText(MainMenu.this, "Disconnected From: " + account.getEmail(), Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
-                    }
-                });
+        Bundle bundle = new Bundle();
+        bundle.putInt("recipient", CommService.SIGNOUT_RECIPIENT);
+        Intent intent = new Intent(MainMenu.this, CommService.class);
+        intent.putExtras(bundle);
+        startForegroundService(intent);
     }
 
     public void ApplicationSettingsActivity(View view) {

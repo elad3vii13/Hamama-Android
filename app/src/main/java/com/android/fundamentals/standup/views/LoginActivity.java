@@ -1,6 +1,7 @@
 package com.android.fundamentals.standup.views;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,7 +36,9 @@ public class LoginActivity extends BroadcastBasedActivity {
                     Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show();
                 else {
                     Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
-                    moveToMainActivity();
+                    Intent intent1 = new Intent(LoginActivity.this, MainMenu.class);
+                    intent1.putExtra("name", username_txt.getText().toString());
+                    startActivity(intent1);
                 }
                 break;
 
@@ -44,9 +47,11 @@ public class LoginActivity extends BroadcastBasedActivity {
         }
     }
 
-    private void moveToMainActivity(){
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(CommService.SIGNIN_RESPONSE);
+        registerReceiver(drr, intentFilter);
     }
 
     @Override

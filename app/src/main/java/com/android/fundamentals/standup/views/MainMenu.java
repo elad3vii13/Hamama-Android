@@ -35,12 +35,8 @@ public class MainMenu extends AppCompatActivity {
         signout_btn = findViewById(R.id.signout);
         welcome_tv = findViewById(R.id.welcome_txt);
 
-        Intent intent = getIntent();
-        GoogleSignInOptions gso = (GoogleSignInOptions) intent.getParcelableExtra("gso");
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        account = GoogleSignIn.getLastSignedInAccount(this);
-        welcome_tv.setText(  "ברוכים הבאים, " + account.getGivenName());
+        String name = getIntent().getStringExtra("name");
+        welcome_tv.setText(  "ברוכים הבאים, " + name);
     }
 
     @Override

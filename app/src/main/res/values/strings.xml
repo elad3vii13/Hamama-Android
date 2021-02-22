@@ -19,7 +19,7 @@
     <string name="spObject">בחירת אובייקט</string>
     <string name="spProperties">בחירת תכונה</string>
     <string name="graph_btn">הצג גרף</string>
-    <string name="app_name">Stand Up!</string>
+    <string name="app_name">Hamama</string>
     <string name="alarm_on_toast">Stand Up Alarm On!</string>
     <string name="alarm_off_toast">Stand Up Alarm Off!</string>
     <string name="notification_title">נושא ההודעה</string>

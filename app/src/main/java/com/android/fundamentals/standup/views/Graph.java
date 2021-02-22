@@ -1,18 +1,13 @@
 package com.android.fundamentals.standup.views;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.fundamentals.standup.R;
@@ -21,7 +16,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
@@ -29,12 +23,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.lang.reflect.Type;
-import java.text.NumberFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.

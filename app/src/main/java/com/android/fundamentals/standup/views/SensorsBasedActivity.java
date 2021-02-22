@@ -1,13 +1,10 @@
 package com.android.fundamentals.standup.views;
 
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.android.fundamentals.standup.R;
 import com.android.fundamentals.standup.communication.CommService;
@@ -19,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SensorsBasedActivity extends BroadcastBasedActivity implements DisplaySettings.SettingsListener  {
+public abstract class SensorsBasedActivity extends SignedInBasedActivity implements DisplaySettings.SettingsListener  {
 
     String jsonSensors;
     ArrayList<Sensor> sensors;

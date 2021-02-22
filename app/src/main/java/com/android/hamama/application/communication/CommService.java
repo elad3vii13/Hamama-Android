@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.communication;
+package com.android.hamama.application.communication;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,8 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.android.fundamentals.standup.views.MainMenu;
-import com.android.fundamentals.standup.R;
+import com.android.hamama.application.views.MainMenu;
+import com.android.hamama.application.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;

@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -10,10 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.fundamentals.standup.R;
-import com.android.fundamentals.standup.controller.LogAdapter;
-import com.android.fundamentals.standup.model.LogEntry;
-import com.android.fundamentals.standup.model.Measure;
+import com.android.hamama.application.R;
+import com.android.hamama.application.controller.LogAdapter;
+import com.android.hamama.application.model.LogEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

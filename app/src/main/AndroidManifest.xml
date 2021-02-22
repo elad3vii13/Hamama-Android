@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.fundamentals.standup">
+    package="com.android.hamama.application">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,15 +15,15 @@
         android:usesCleartextTraffic="true">
 
         <service
-            android:name=".communication.CommService"
+            android:name="com.android.hamama.application.communication.CommService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".views.Measures" />
-        <activity android:name=".views.BoardSettings" />
-        <activity android:name=".views.Log" />
-        <activity android:name=".views.MainMenu" />
-        <activity android:name=".views.LoginActivity">
+        <activity android:name="com.android.hamama.application.views.Measures" />
+        <activity android:name="com.android.hamama.application.views.BoardSettings" />
+        <activity android:name="com.android.hamama.application.views.Log" />
+        <activity android:name="com.android.hamama.application.views.MainMenu" />
+        <activity android:name="com.android.hamama.application.views.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +32,10 @@
         </activity>
 
         <service
-            android:name=".MyIntentService"
+            android:name="com.android.hamama.application.MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".ApplicationSettings">
+        <activity android:name="com.android.hamama.application.ApplicationSettings">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -46,7 +46,7 @@
         </activity>
 
         <receiver
-            android:name=".AlarmReceiver"
+            android:name="com.android.hamama.application.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
     </application>

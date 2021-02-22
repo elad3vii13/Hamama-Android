@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -6,9 +6,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.android.fundamentals.standup.R;
-import com.android.fundamentals.standup.communication.CommService;
-import com.android.fundamentals.standup.model.Sensor;
+import com.android.hamama.application.R;
+import com.android.hamama.application.communication.CommService;
+import com.android.hamama.application.model.Sensor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

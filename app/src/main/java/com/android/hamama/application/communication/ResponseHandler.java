@@ -1,12 +1,7 @@
-package com.android.fundamentals.standup.communication;
-
-import android.util.Log;
+package com.android.hamama.application.communication;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 public class ResponseHandler implements  Response.Listener<String>, Response.ErrorListener{
     ServerResultHandler listener;

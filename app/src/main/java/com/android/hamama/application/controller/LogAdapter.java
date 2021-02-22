@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.controller;
+package com.android.hamama.application.controller;
 
 import android.content.Context;
 
@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.fundamentals.standup.R;
-import com.android.fundamentals.standup.communication.CommService;
-import com.android.fundamentals.standup.model.LogEntry;
+import com.android.hamama.application.R;
+import com.android.hamama.application.model.LogEntry;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.ArrayList;

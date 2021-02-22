@@ -20,8 +20,8 @@
     <string name="spProperties">בחירת תכונה</string>
     <string name="graph_btn">הצג גרף</string>
     <string name="app_name">Hamama</string>
-    <string name="alarm_on_toast">Stand Up Alarm On!</string>
-    <string name="alarm_off_toast">Stand Up Alarm Off!</string>
+    <string name="alarm_on_toast">Alarm On!</string>
+    <string name="alarm_off_toast">Alarm Off!</string>
     <string name="notification_title">נושא ההודעה</string>
     <string name="notification_text">תוכן ההודעה</string>
     <string name="alarm_off">Alarm off</string>

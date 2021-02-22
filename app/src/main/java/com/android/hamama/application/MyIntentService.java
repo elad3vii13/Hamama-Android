@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup;
+package com.android.hamama.application;
 
 import android.app.IntentService;
 import android.app.NotificationChannel;

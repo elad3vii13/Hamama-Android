@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.model;
+package com.android.hamama.application.model;
 
 public class LogEntry {
     public final static String INFO = "info";

@@ -1,6 +1,5 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,7 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.android.fundamentals.standup.R;
+import com.android.hamama.application.R;
 
 public abstract class SignedInBasedActivity extends BroadcastBasedActivity {
     @Override

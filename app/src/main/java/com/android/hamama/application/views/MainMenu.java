@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.fundamentals.standup.ApplicationSettings;
-import com.android.fundamentals.standup.R;
-import com.android.fundamentals.standup.communication.CommService;
+import com.android.hamama.application.ApplicationSettings;
+import com.android.hamama.application.R;
+import com.android.hamama.application.communication.CommService;
 
 public class MainMenu extends SignedInBasedActivity {
     TextView welcome_tv;

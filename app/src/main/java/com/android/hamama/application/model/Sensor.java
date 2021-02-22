@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.model;
+package com.android.hamama.application.model;
 
 public class Sensor {
     long id;

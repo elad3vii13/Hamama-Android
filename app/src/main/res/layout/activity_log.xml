@@ -10,13 +10,13 @@
         android:layout_height="400dp"
         tools:layout="@layout/fragment_log"
         android:id="@+id/logFrag"
-        class="com.android.fundamentals.standup.views.LogFragment"
+        class="com.android.hamama.application.views.LogFragment"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"></fragment>
 
     <fragment
         android:id="@+id/fragDisplaySettings"
-        class="com.android.fundamentals.standup.views.DisplaySettings"
+        class="com.android.hamama.application.views.DisplaySettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/logFrag"

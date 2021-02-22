@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:id="@+id/fragGraph"
-        class="com.android.fundamentals.standup.views.Graph"></fragment>
+        class="com.android.hamama.application.views.Graph"></fragment>
 
     <fragment
         android:id="@+id/fragDisplaySettings"
-        class="com.android.fundamentals.standup.views.DisplaySettings"
+        class="com.android.hamama.application.views.DisplaySettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fragGraph"

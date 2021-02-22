@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
@@ -21,8 +21,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.fundamentals.standup.R;
-import com.android.fundamentals.standup.model.Sensor;
+import com.android.hamama.application.R;
+import com.android.hamama.application.model.Sensor;
 import com.thomashaertel.widget.MultiSpinner;
 
 import java.text.SimpleDateFormat;

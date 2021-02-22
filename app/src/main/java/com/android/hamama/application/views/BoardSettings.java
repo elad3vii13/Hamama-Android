@@ -1,9 +1,9 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.android.fundamentals.standup.R;
+import com.android.hamama.application.R;
 
 public class BoardSettings extends AppCompatActivity {
 

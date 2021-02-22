@@ -1,4 +1,4 @@
-package com.android.fundamentals.standup.views;
+package com.android.hamama.application.views;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.fundamentals.standup.R;
-import com.android.fundamentals.standup.model.Measure;
+import com.android.hamama.application.R;
+import com.android.hamama.application.model.Measure;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

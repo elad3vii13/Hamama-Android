@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.fundamentals.standup;
+package com.android.hamama.application;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

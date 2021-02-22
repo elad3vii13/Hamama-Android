@@ -25,9 +25,13 @@ public class LoginActivity extends BroadcastBasedActivity {
                     Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show();
                 else {
                     Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
-                    Intent intent1 = new Intent(LoginActivity.this, MainMenu.class);
-                    intent1.putExtra("name", username_txt.getText().toString());
-                    startActivity(intent1);
+                    goMainMenu();
+                }
+                break;
+            case CommService.CURRENT_USER_RESPONSE:
+                int userId = Integer.parseInt(intent.getStringExtra("currentUserId"));
+                if(userId!=-1) {
+                    goMainMenu();
                 }
                 break;
             default:
@@ -35,10 +39,19 @@ public class LoginActivity extends BroadcastBasedActivity {
         }
     }
 
+    private void goMainMenu() {
+        Intent intent1 = new Intent(LoginActivity.this, MainMenu.class);
+        intent1.putExtra("name", username_txt.getText().toString());
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent1);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter(CommService.SIGNIN_RESPONSE);
+        intentFilter.addAction(CommService.CURRENT_USER_RESPONSE);
+        checkCurrentUser();
         registerReceiver(drr, intentFilter);
     }
 
@@ -64,5 +77,13 @@ public class LoginActivity extends BroadcastBasedActivity {
                 startForegroundService(intent);
             }
         });
+    }
+
+    private void checkCurrentUser(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("recipient", CommService.CURRENT_USER_RECIPIENT);
+        Intent intent = new Intent(LoginActivity.this, CommService.class);
+        intent.putExtras(bundle);
+        startForegroundService(intent);
     }
 }

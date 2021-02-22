@@ -25,12 +25,14 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int LOG_RECIPIENT = 3;
     public static final int SIGNIN_RECIPIENT = 4;
     public static final int SIGNOUT_RECIPIENT = 5;
+    public static final int CURRENT_USER_RECIPIENT = 6;
 
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
     public static final String NEW_LOG_DATA = "com.elad.project.commservice.new_log_data";
     public static final String SIGNIN_RESPONSE = "com.elad.project.commservice.signin_response";
     public static final String SIGNOUT_RESPONSE = "com.elad.project.commservice.signout_response";
+    public static final String CURRENT_USER_RESPONSE = "com.elad.project.commservice.current_user_response";
 
 
     NotificationManager mNotiMgr;
@@ -95,6 +97,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
              case SIGNOUT_RECIPIENT:
                  result = "http://10.0.2.2:8080/mobile?cmd=logout";
+                 break;
+
+             case CURRENT_USER_RECIPIENT:
+                 result = "http://10.0.2.2:8080/mobile?cmd=currentUser";
                  break;
          }
 
@@ -178,6 +184,13 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 Intent intent5 = new Intent();
                 intent5.setAction(SIGNOUT_RESPONSE);
                 sendBroadcast(intent5);
+                break;
+
+            case CURRENT_USER_RECIPIENT:
+                Intent intent6 = new Intent();
+                intent6.setAction(CURRENT_USER_RESPONSE);
+                intent6.putExtra("currentUserId", result);
+                sendBroadcast(intent6);
                 break;
         }
     }

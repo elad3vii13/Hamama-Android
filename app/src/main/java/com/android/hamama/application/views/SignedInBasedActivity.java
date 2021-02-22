@@ -33,6 +33,7 @@ public abstract class SignedInBasedActivity extends BroadcastBasedActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(android.R.id.content, new MySettingsFragment())
+                        .addToBackStack(null)
                         .commit();
                 return true;
             default:

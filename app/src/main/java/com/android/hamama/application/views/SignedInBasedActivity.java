@@ -13,7 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.hamama.application.R;
 
-public abstract class SignedInBasedActivity extends BroadcastBasedActivity {
+public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -36,6 +36,7 @@ public abstract class SignedInBasedActivity extends BroadcastBasedActivity {
                         .addToBackStack(null)
                         .commit();
                 return true;
+
             default:
                 return super.onContextItemSelected(item);
         }

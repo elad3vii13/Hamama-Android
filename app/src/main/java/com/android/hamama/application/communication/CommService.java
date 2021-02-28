@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
+
     static RequestQueue queue;
     public static final int GRAPH_RECIPIENT =1;
     public static final int MEASURE_RECIPIENT = 2;
@@ -34,7 +35,6 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final String SIGNOUT_RESPONSE = "com.elad.project.commservice.signout_response";
     public static final String CURRENT_USER_RESPONSE = "com.elad.project.commservice.current_user_response";
 
-
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
     final int NOTIFICATION_ID1=1;
@@ -46,18 +46,17 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public void onCreate() {
         super.onCreate();
         initForeground();
-        if (queue== null)
+        if (queue == null)
             queue = Volley.newRequestQueue(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         Bundle bundle = intent.getExtras();
         int recipient = bundle.getInt("recipient");
         String url = buildUrlFromBundle(bundle);
         new CommThread(url, recipient).start();
-        return START_REDELIVER_INTENT;
+        return START_REDELIVER_INTENT; // Tells the system to restart the service after the crash and also redeliver the intents that were present at the time of crash
     }
 
     private String buildUrlFromBundle(Bundle bundle) {
@@ -103,7 +102,6 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  result = "http://10.0.2.2:8080/mobile?cmd=currentUser";
                  break;
          }
-
         return result;
     }
 
@@ -111,8 +109,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         String CHANNEL_ID = "my_channel_01";
         if (mNotiMgr==null)
             mNotiMgr= (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID,"My main channel", NotificationManager.IMPORTANCE_DEFAULT);
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(this, MainMenu.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -121,6 +121,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 .setContentTitle("Testing Notification...")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent);
+
         startForeground(NOTIFICATION_ID1, updateNotification(""));
     }
 
@@ -198,6 +199,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     private class CommThread extends Thread{
         String url;
         int recipient;
+
         public CommThread(String url, int recipient){
             this.url = url;
             this.recipient = recipient;

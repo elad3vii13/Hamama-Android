@@ -30,9 +30,8 @@ public class LoginActivity extends BroadcastBasedActivity {
                 break;
             case CommService.CURRENT_USER_RESPONSE:
                 int userId = Integer.parseInt(intent.getStringExtra("currentUserId"));
-                if(userId!=-1) {
+                if(userId!=-1)
                     goMainMenu();
-                }
                 break;
             default:
                 break;
@@ -67,11 +66,9 @@ public class LoginActivity extends BroadcastBasedActivity {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-
                 bundle.putInt("recipient", CommService.SIGNIN_RECIPIENT);
                 bundle.putString("nickname", username_txt.getText().toString());
                 bundle.putString("password", password_txt.getText().toString());
-
                 Intent intent = new Intent(LoginActivity.this, CommService.class);
                 intent.putExtras(bundle);
                 startForegroundService(intent);

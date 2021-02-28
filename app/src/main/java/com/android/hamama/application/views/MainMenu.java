@@ -24,6 +24,7 @@ public class MainMenu extends SignedInBasedActivity {
                 Intent intent1 = new Intent(MainMenu.this, LoginActivity.class);
                 startActivity(intent1);
                 break;
+
             default:
                 break;
         }

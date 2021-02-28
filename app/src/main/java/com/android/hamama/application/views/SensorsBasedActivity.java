@@ -48,7 +48,6 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
         return sensors;
     }
 
-
     @Override
     public void refreshSensorsList(){
         Intent intent = new Intent(this, CommService.class);

@@ -9,7 +9,6 @@ import com.android.hamama.application.R;
 import com.android.hamama.application.communication.CommService;
 
 public class Measures extends SensorsBasedActivity {
-
     FragmentManager fmgr;
 
     @Override
@@ -51,9 +50,11 @@ public class Measures extends SensorsBasedActivity {
                 Graph graphFrag = (Graph) fmgr.findFragmentById(R.id.fragGraph);
                 graphFrag.refreshGraph(mdata);
                 break;
+
             case CommService.NEW_SENSORS_LIST:
                 super.onBroadcastReceived(intent);
                 break;
+
             default:
                 break;
         }

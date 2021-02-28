@@ -47,14 +47,13 @@ public class DisplaySettings extends Fragment {
     Long from, to;
     SettingsListener graphSettingsListener;
     int sensorId = 1;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     MultiSpinner spinner;
     Spinner spinnerPriority;
     String[] priorityLevels = {"", "error", "warning", "info"};
-
-
     ArrayList<Sensor> sensors;
 
     public DisplaySettings() {
@@ -96,7 +95,6 @@ public class DisplaySettings extends Fragment {
 
     }
 
-
     public void initGraphSettings(){
         ArrayAdapter<String> adapter;
         sensors = graphSettingsListener.getSensorsList();
@@ -128,11 +126,6 @@ public class DisplaySettings extends Fragment {
         spinner.setSelected(selectedItems);
         spinner.setEnabled(true);
 
-
-
-
-
-
         // create spinner list elements
         ArrayAdapter<String> adapter2;
         adapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
@@ -143,11 +136,9 @@ public class DisplaySettings extends Fragment {
 
         // get spinner and set adapter
         spinnerPriority.setAdapter(adapter2);
-
         spinnerPriority.setSelection(0);
         spinnerPriority.setEnabled(true);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -270,13 +261,11 @@ public class DisplaySettings extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        spinnerPriority.setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
-//        spinner.setVisibility(graphSettingsListener.showPriority()?View.GONE:View.VISIBLE);
-
+        //  spinnerPriority.setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
+        //  spinner.setVisibility(graphSettingsListener.showPriority()?View.GONE:View.VISIBLE);
         getView().findViewById(R.id.sensorLayout).setVisibility(graphSettingsListener.showPriority()?View.GONE:View.VISIBLE);
         getView().findViewById(R.id.linearPriority).setVisibility(graphSettingsListener.showPriority()?View.VISIBLE:View.GONE);
     }
-
 
     public interface SettingsListener{
         public void onNewSettings(Bundle bundle);

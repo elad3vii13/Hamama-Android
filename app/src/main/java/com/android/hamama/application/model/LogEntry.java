@@ -1,6 +1,7 @@
 package com.android.hamama.application.model;
 
 public class LogEntry {
+
     public final static String INFO = "info";
     public final static String WARNING = "warning";
     public final static String ERROR = "error";
@@ -15,7 +16,7 @@ public class LogEntry {
         this.message = message;
         this.sid = sid;
     }
-
+    
     public long getTime() {
         return time;
     }

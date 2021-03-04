@@ -98,7 +98,6 @@ public class DisplaySettings extends Fragment {
     public void initGraphSettings(){
         ArrayAdapter<String> adapter;
         sensors = graphSettingsListener.getSensorsList();
-
         progressBar.setVisibility(View.INVISIBLE);
         updateSensors.setEnabled(true);
 
@@ -157,13 +156,20 @@ public class DisplaySettings extends Fragment {
         updateSensors = view.findViewById(R.id.updateSensors);
         progressBar = view.findViewById(R.id.progressBar2);
 
+        if(graphSettingsListener.showPriority()){
+            updateSensors.setVisibility(view.INVISIBLE);
+            progressBar.setVisibility(view.INVISIBLE);
+        }
+
         updateSensors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
-                updateSensors.setEnabled(false);
-                graphSettingsListener.refreshSensorsList();
+                if(!graphSettingsListener.showPriority()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
+                    updateSensors.setEnabled(false);
+                    graphSettingsListener.refreshSensorsList();
+                }
             }
         });
 

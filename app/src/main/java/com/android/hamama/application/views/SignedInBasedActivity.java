@@ -54,7 +54,6 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
             if (view != null) {
                 view.setBackgroundColor(getResources().getColor(android.R.color.white));
             }
-
             return view;
         }
     }

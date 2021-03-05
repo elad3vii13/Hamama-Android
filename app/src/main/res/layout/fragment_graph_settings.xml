@@ -9,6 +9,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
+        android:layout_above="@id/linearPriority"
         android:id="@+id/sensorLayout"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/sensorLayout"
+        android:layout_above="@id/layout1"
         android:id="@+id/linearPriority"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -62,13 +63,17 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_above="@id/updateSensors"
+        android:layout_marginTop="10dp"
         android:id="@+id/layout1"
-        android:layout_below="@id/linearPriority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
     <Button
+        android:background="@drawable/dark_button"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/btnFrom"
         android:text="@string/defineStart"
         android:layout_width="wrap_content"
@@ -81,6 +86,8 @@
             android:layout_height="wrap_content"></TextView>
 
         <Button
+            android:background="@drawable/dark_button"
+            android:layout_marginLeft="10dp"
             android:id="@+id/btnTo"
             android:text="@string/defineStop"
             android:layout_width="wrap_content"
@@ -94,13 +101,17 @@
     </LinearLayout>
 
     <Button
+        android:layout_above="@id/btnRefresh"
+        android:layout_margin="15dp"
+        android:background="@drawable/button"
         android:id="@+id/updateSensors"
         android:text="@string/updateSensors"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout1"></Button>
+        android:layout_height="wrap_content"></Button>
 
     <Button
+        android:layout_margin="15dp"
+        android:background="@drawable/button"
         android:id="@+id/btnRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

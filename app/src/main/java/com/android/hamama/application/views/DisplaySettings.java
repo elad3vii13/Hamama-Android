@@ -34,12 +34,16 @@ import java.util.Calendar;
  * Use the {@link DisplaySettings#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DisplaySettings extends Fragment {
 
+public class DisplaySettings extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    long WEEK_IN_UNIXTIME = 604800 * 1000; // 60(minutes)*60(hours)= 3600 seconds
+    // 7(Days in a week) * 24(hours a day) > 24*7*3600 > hours to seconds: 604800(in seconds) * 1000 > 604800000(mili seconds)
+
     ProgressBar progressBar;
     TextView textView1, textView2;
     Button refreshBtn;
@@ -81,7 +85,6 @@ public class DisplaySettings extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.graphSettingsListener = (SettingsListener) context;
     }
 
@@ -93,6 +96,18 @@ public class DisplaySettings extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        if (graphSettingsListener.showPriority()) { //LOG scenario
+            Bundle bundle;
+            bundle = new Bundle();
+
+            to = System.currentTimeMillis();
+            from = to - WEEK_IN_UNIXTIME;
+
+            bundle.putLong("from", from);
+            bundle.putLong("to", to);
+            graphSettingsListener.onNewSettings(bundle);
+            Toast.makeText(getContext(), "Logs from the past week", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void initGraphSettings(){
@@ -164,12 +179,10 @@ public class DisplaySettings extends Fragment {
         updateSensors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!graphSettingsListener.showPriority()) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
-                    updateSensors.setEnabled(false);
-                    graphSettingsListener.refreshSensorsList();
-                }
+                progressBar.setVisibility(View.VISIBLE);
+                Toast.makeText(v.getContext(), "loading the sensor list ...", Toast.LENGTH_SHORT).show();
+                updateSensors.setEnabled(false);
+                graphSettingsListener.refreshSensorsList();
             }
         });
 

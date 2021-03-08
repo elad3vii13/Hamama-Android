@@ -18,6 +18,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
 
     static RequestQueue queue;
@@ -46,6 +49,9 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public void onCreate() {
         super.onCreate();
         initForeground();
+        CookieManager manager = new CookieManager();
+        CookieHandler.setDefault(manager);
+
         if (queue == null)
             queue = Volley.newRequestQueue(this);
     }

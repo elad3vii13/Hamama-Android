@@ -27,6 +27,11 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:

@@ -25,6 +25,7 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
 
     @Override
     protected void onResume() {
+        super.onResume(); // Must be the first line
         IntentFilter intentFilter = new IntentFilter(CommService.NEW_SENSORS_LIST);
         registerReceiver(drr, intentFilter);
 
@@ -40,7 +41,7 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
             DisplaySettings fragDisplaySettings = (DisplaySettings) fmgr.findFragmentById(R.id.fragDisplaySettings);
             fragDisplaySettings.initGraphSettings();
         }
-        super.onResume();
+
     }
 
     @Override

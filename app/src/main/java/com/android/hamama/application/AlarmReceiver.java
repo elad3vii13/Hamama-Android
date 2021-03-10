@@ -25,16 +25,15 @@ import android.content.Intent;
  * Broadcast receiver for the alarm, which delivers the notification.
  */
 public class AlarmReceiver extends BroadcastReceiver {
-
     private NotificationManager mNotificationManager;
     // Notification ID.
-
     /**
      * Called when the BroadcastReceiver receives an Intent broadcast.
      *
      * @param context The Context in which the receiver is running.
      * @param intent The Intent being received.
      */
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent intent1 = new Intent(context, MyIntentService.class);

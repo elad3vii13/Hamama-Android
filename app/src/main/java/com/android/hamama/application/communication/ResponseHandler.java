@@ -5,9 +5,9 @@ import com.android.volley.VolleyError;
 
 public class ResponseHandler implements  Response.Listener<String>, Response.ErrorListener{
     ServerResultHandler listener;
-    int recipient;
+    Integer recipient;
 
-    public ResponseHandler(ServerResultHandler listener, int recipient) {
+    public ResponseHandler(ServerResultHandler listener, Integer recipient) {
         this.listener = listener;
         this.recipient = recipient;
     }
@@ -23,6 +23,6 @@ public class ResponseHandler implements  Response.Listener<String>, Response.Err
     }
 
     public interface ServerResultHandler {
-        public void onNewResult(String result, int recipient);
+        public void onNewResult(String result, Integer recipient);
     }
 }

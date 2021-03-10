@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import androidx.preference.PreferenceManager;
+
 import com.android.hamama.application.views.MainMenu;
 import com.android.hamama.application.R;
 import com.android.volley.Request;
@@ -23,6 +25,7 @@ import java.net.CookieManager;
 
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
 
+    final static String SIGNED_OUT_URL = "http://10.0.2.2:8080/mobile?cmd=logout";
     static RequestQueue queue;
     public static final int GRAPH_RECIPIENT =1;
     public static final int MEASURE_RECIPIENT = 2;
@@ -54,6 +57,20 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
         if (queue == null)
             queue = Volley.newRequestQueue(this);
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        System.out.println("onTaskRemoved called");
+        super.onTaskRemoved(rootIntent);
+        //do something you want
+        //stop service
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean stay = prefs.getBoolean("stay_loggedin", false);
+        if(!stay){
+            new CommThread(SIGNED_OUT_URL, null).start();
+        }
+        //this.stopSelf();
     }
 
     @Override
@@ -101,7 +118,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  break;
 
              case SIGNOUT_RECIPIENT:
-                 result = "http://10.0.2.2:8080/mobile?cmd=logout";
+                 result = SIGNED_OUT_URL;
                  break;
 
              case CURRENT_USER_RECIPIENT:
@@ -152,7 +169,9 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     }
 
     @Override
-    public void onNewResult(String result, int recipient) {
+    public void onNewResult(String result, Integer recipient) {
+        if (recipient == null) return;
+
         switch(recipient) {
             case GRAPH_RECIPIENT:
                 Intent intent = new Intent();
@@ -204,9 +223,9 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
     private class CommThread extends Thread{
         String url;
-        int recipient;
+        Integer recipient;
 
-        public CommThread(String url, int recipient){
+        public CommThread(String url, Integer recipient){
             this.url = url;
             this.recipient = recipient;
         }

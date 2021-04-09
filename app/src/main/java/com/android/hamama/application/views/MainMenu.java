@@ -4,10 +4,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.preference.PreferenceManager;
 
 import com.android.hamama.application.ApplicationSettings;
 import com.android.hamama.application.R;
@@ -16,6 +19,7 @@ import com.android.hamama.application.communication.CommService;
 public class MainMenu extends SignedInBasedActivity {
     TextView welcome_tv;
     Button signout_btn;
+    SharedPreferences prefs;
 
     @Override
     protected void onBroadcastReceived(Intent intent) {
@@ -36,8 +40,9 @@ public class MainMenu extends SignedInBasedActivity {
         setContentView(R.layout.activity_main_menu);
         signout_btn = findViewById(R.id.signout);
         welcome_tv = findViewById(R.id.welcome_txt);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String name = getIntent().getStringExtra("name");
+        String name = prefs.getString("username", "");
         welcome_tv.setText(  "ברוכים הבאים, " + name);
     }
 
@@ -49,6 +54,11 @@ public class MainMenu extends SignedInBasedActivity {
     }
 
     public void signOut(View view) {
+        SharedPreferences.Editor e = prefs.edit();
+        e.remove("username");
+        e.remove("password");
+        e.commit();
+
         Bundle bundle = new Bundle();
         bundle.putInt("recipient", CommService.SIGNOUT_RECIPIENT);
         Intent intent = new Intent(MainMenu.this, CommService.class);

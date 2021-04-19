@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.preference.PreferenceManager;
 
 import com.android.hamama.application.ApplicationSettings;
+import com.android.hamama.application.BoardSettings;
 import com.android.hamama.application.R;
 import com.android.hamama.application.communication.CommService;
 

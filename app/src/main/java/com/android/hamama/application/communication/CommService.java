@@ -27,6 +27,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
     final static String SIGNED_OUT_URL = "http://10.0.2.2:8080/mobile?cmd=logout";
     static RequestQueue queue;
+
     public static final int GRAPH_RECIPIENT =1;
     public static final int MEASURE_RECIPIENT = 2;
     public static final int LOG_RECIPIENT = 3;
@@ -85,7 +86,6 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     private String buildUrlFromBundle(Bundle bundle) {
         int recipient = bundle.getInt("recipient");
         String result = "";
-
          switch(recipient) {
              case GRAPH_RECIPIENT:
                  long from = bundle.getLong("from");

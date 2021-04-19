@@ -1,4 +1,4 @@
-package com.android.hamama.application.views;
+package com.android.hamama.application;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

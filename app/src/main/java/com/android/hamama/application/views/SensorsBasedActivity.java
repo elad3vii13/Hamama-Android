@@ -17,12 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SensorsBasedActivity extends SignedInBasedActivity implements DisplaySettings.SettingsListener  {
-
     String jsonSensors;
     ArrayList<Sensor> sensors;
     SharedPreferences sh1;
     FragmentManager fmgr;
-
     @Override
     protected void onResume() {
         super.onResume(); // Must be the first line
@@ -41,9 +39,7 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
             DisplaySettings fragDisplaySettings = (DisplaySettings) fmgr.findFragmentById(R.id.fragDisplaySettings);
             fragDisplaySettings.initGraphSettings();
         }
-
     }
-
     @Override
     public ArrayList<Sensor> getSensorsList() {
         return sensors;
@@ -65,7 +61,6 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
         intent.putExtras(bundle);
         startForegroundService(intent);
     }
-
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
             case CommService.NEW_SENSORS_LIST:

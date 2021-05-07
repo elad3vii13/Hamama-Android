@@ -78,6 +78,7 @@ public class Graph extends Fragment {
     }
 
 private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
+
     Type listType = new TypeToken<List<Measure>>() {}.getType();
     Properties data = new Gson().fromJson(responseData, Properties.class);
 

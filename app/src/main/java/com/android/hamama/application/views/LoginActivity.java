@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager;
 import com.android.hamama.application.R;
 import com.android.hamama.application.communication.CommService;
 
-
 public class LoginActivity extends BroadcastBasedActivity {
     EditText username_txt, password_txt;
     Button button;
@@ -38,7 +37,7 @@ public class LoginActivity extends BroadcastBasedActivity {
                     goMainMenu();
                 }
                 break;
-            case CommService.CURRENT_USER_RESPONSE:
+            case CommService.CURRENT_USER_RESPONSE: // Check if the user is still in the current session.
                 int userId = Integer.parseInt(intent.getStringExtra("currentUserId"));
                 Boolean stay = prefs.getBoolean("stay_loggedin", false);
 
@@ -67,7 +66,7 @@ public class LoginActivity extends BroadcastBasedActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+        super.onResume(); // This line must be code before any line.
         IntentFilter intentFilter = new IntentFilter(CommService.SIGNIN_RESPONSE);
         intentFilter.addAction(CommService.CURRENT_USER_RESPONSE);
         checkCurrentUser();

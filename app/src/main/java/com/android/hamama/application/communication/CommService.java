@@ -221,7 +221,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         }
     }
 
-    private class CommThread extends Thread{
+    private class CommThread extends Thread {
         String url;
         Integer recipient;
 

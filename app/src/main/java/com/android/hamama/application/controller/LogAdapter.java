@@ -18,7 +18,6 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
      ArrayList<LogEntry> entries;
      Context context;
@@ -26,7 +25,10 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
      public LogAdapter(Context context, ArrayList<LogEntry> entries){
          this.entries = entries;
          this.context = context;
-         notifyDataSetChanged();
+         notifyDataSetChanged(); /*
+         Notifies the attached observers that the underlying data has been changed
+         and any View reflecting the data set should refresh itself.
+         */
      }
 
     @NonNull
@@ -47,7 +49,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
         holder.bindData(entry);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPriority;
         TextView tvTime;
         ExpandableTextView expMessage;

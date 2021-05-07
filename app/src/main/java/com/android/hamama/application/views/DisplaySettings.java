@@ -96,7 +96,8 @@ public class DisplaySettings extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        if (graphSettingsListener.showPriority()) { //LOG scenario
+        // Shows the last result from the last week.
+        if (graphSettingsListener.showPriority()) { // LOG scenario
             Bundle bundle;
             bundle = new Bundle();
 
@@ -171,7 +172,7 @@ public class DisplaySettings extends Fragment {
         updateSensors = view.findViewById(R.id.updateSensors);
         progressBar = view.findViewById(R.id.progressBar2);
 
-        if(graphSettingsListener.showPriority()){
+        if(graphSettingsListener.showPriority()){ // LOG
             updateSensors.setVisibility(view.INVISIBLE);
             progressBar.setVisibility(view.INVISIBLE);
         }

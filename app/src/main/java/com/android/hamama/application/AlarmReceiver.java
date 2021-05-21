@@ -43,7 +43,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         context.startService(intent1);
         // Deliver the notification.
     }
-
     
     /**
      * Builds and delivers the notification.

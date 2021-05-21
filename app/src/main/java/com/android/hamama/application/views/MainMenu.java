@@ -41,10 +41,6 @@ public class MainMenu extends SignedInBasedActivity {
         setContentView(R.layout.activity_main_menu);
         signout_btn = findViewById(R.id.signout);
         welcome_tv = findViewById(R.id.welcome_txt);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        String name = prefs.getString("username", "");
-        welcome_tv.setText(  "ברוכים הבאים, " + name);
     }
 
     @Override
@@ -52,6 +48,10 @@ public class MainMenu extends SignedInBasedActivity {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter(CommService.SIGNOUT_RESPONSE);
         registerReceiver(drr, intentFilter);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String name = prefs.getString("username", "");
+        welcome_tv.setText(  "ברוכים הבאים, " + name);
     }
 
     public void signOut(View view) {

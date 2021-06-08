@@ -20,7 +20,6 @@
             android:exported="true" />
 
         <activity android:name="com.android.hamama.application.views.Measures" />
-        <activity android:name="com.android.hamama.application.BoardSettings" />
         <activity android:name="com.android.hamama.application.views.Log" />
         <activity android:name="com.android.hamama.application.views.MainMenu" />
         <activity android:name="com.android.hamama.application.views.LoginActivity">
@@ -30,17 +29,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.android.hamama.application.MyIntentService"
-            android:exported="false" />
-
-        <activity android:name="com.android.hamama.application.ApplicationSettings">
-        </activity>
-
-        <receiver
-            android:name="com.android.hamama.application.AlarmReceiver"
-            android:enabled="true"
-            android:exported="false" />
     </application>
 
 </manifest>

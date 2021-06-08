@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
-import com.android.hamama.application.ApplicationSettings;
-import com.android.hamama.application.BoardSettings;
 import com.android.hamama.application.R;
 import com.android.hamama.application.communication.CommService;
 
@@ -67,21 +65,10 @@ public class MainMenu extends SignedInBasedActivity {
         startForegroundService(intent);
     }
 
-    public void ApplicationSettingsActivity(View view) {
-        Intent intent = new Intent(MainMenu.this, ApplicationSettings.class);
-        startActivity(intent);
-    }
-
     public void LogActivity(View view) {
         Intent intent = new Intent(MainMenu.this, Log.class);
         startActivity(intent);
     }
-
-    public void SettingsActivity(View view) {
-        Intent intent = new Intent(MainMenu.this, BoardSettings.class);
-        startActivity(intent);
-    }
-
 
     public void MeasuresActivity(View view) {
         Intent intent = new Intent(MainMenu.this, Measures.class);

@@ -13,6 +13,7 @@ import android.os.IBinder;
 
 import androidx.preference.PreferenceManager;
 
+import com.android.hamama.application.views.LoginActivity;
 import com.android.hamama.application.views.MainMenu;
 import com.android.hamama.application.R;
 import com.android.volley.Request;
@@ -23,10 +24,31 @@ import com.android.volley.toolbox.Volley;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
+/*
+   The CommService class - (CommThread in here):
+   This class handles the communication between the server and volley by
+   building the right url for the appropriate recipient - and building a queue of requests by
+   the right format.
+
+   After the result received from the async function, It is sent to the right
+   recipient, by creating actions for every kind of request - and broadcasting it.
+   That's how the "acitivty of the recipient" knows which broadcast to listen to.
+ */
 public class CommService extends Service implements ResponseHandler.ServerResultHandler {
 
     final static String SIGNED_OUT_URL = "http://10.0.2.2:8080/mobile?cmd=logout";
+
+    // The queue of the requests, that executed by the Volley.
     static RequestQueue queue;
+
+    /*  The recipients. this part is needed because
+
+        * the service needs to know where to send the results to
+        it does that by setting the right action for that recipient, because the "recipient activity", they are listening
+        to that action (so it necessary to know what action to bind).
+
+        * Also, to identify the request and handle it properly, for example by building the url
+     */
 
     public static final int GRAPH_RECIPIENT =1;
     public static final int MEASURE_RECIPIENT = 2;
@@ -35,6 +57,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int SIGNOUT_RECIPIENT = 5;
     public static final int CURRENT_USER_RECIPIENT = 6;
 
+    /*  The actions, that the recipient is listening to,
+        for example the "login", recepient registered that action and he is listening to that action.
+     */
+
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
     public static final String NEW_LOG_DATA = "com.elad.project.commservice.new_log_data";
@@ -42,6 +68,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final String SIGNOUT_RESPONSE = "com.elad.project.commservice.signout_response";
     public static final String CURRENT_USER_RESPONSE = "com.elad.project.commservice.current_user_response";
 
+    // for the initForeground function, that the service is requires you to run
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
     final int NOTIFICATION_ID1=1;
@@ -55,6 +82,12 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         initForeground();
         CookieManager manager = new CookieManager();
         CookieHandler.setDefault(manager);
+
+        /* This is the queue of the requests, the Volley execute them one by one.
+           you can send infinite requests and Volley will handle them quickly
+           because it's not waiting for response from the server, he just execute them without
+           waiting for response, because Volley is uses asynchronous HTTP requests.
+        */
 
         if (queue == null)
             queue = Volley.newRequestQueue(this);
@@ -74,14 +107,30 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         //this.stopSelf();
     }
 
+    /*
+        Every time someone request a request, this code will be execute after being called by "start foreground service"
+        the code will extract the bundles data and the recipient, and add them to the queue by the format it requires,
+        to fit to that format, we'll use the function createReqeust that uses a function from ResponseHandler.
+
+        From that format, we are telling volley where to send the results, after it got it.
+        When the result arrives, it will go to the onNewResult function on the service class.
+    */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle = intent.getExtras();
         int recipient = bundle.getInt("recipient");
         String url = buildUrlFromBundle(bundle);
-        new CommThread(url, recipient).start();
-        return START_REDELIVER_INTENT; // Tells the system to restart the service after the crash and also redeliver the intents that were present at the time of crash
+        queue.add(createRequest(url, recipient));
+//        new CommThread(url, recipient).start(); // Corrently Disabled
+        return START_REDELIVER_INTENT;
     }
+
+    /*
+        This function, will build url from the information of the bundle
+        the function knows to do that because of the use of the different "recipients"
+        every different url has another purpose, but they're all gathering information from the server
+        by sending HTTP requests.
+     */
 
     private String buildUrlFromBundle(Bundle bundle) {
         int recipient = bundle.getInt("recipient");
@@ -128,6 +177,10 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         return result;
     }
 
+    /* This function is required by the service, because of the use of foreground service.
+       I chose to work with foreground service, because this is marked as "more important", from background service,
+       to stop it, you need to do that manually, and the androidOS does not do that automatically.
+    */
     private void initForeground(){
         String CHANNEL_ID = "my_channel_01";
         if (mNotiMgr==null)
@@ -137,11 +190,11 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
 
         // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, MainMenu.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         mNotifyBuilder = new Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle("Testing Notification...")
+                .setContentTitle("Hamama notifications:")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent);
 
@@ -156,17 +209,31 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         return noti;
     }
 
+    //  USELESS
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /*  this function purpose is to fit the url and the recipient to the format of StringRequest
+        because this is the format the queue of requests gets.
+        in order to create a StringRequest variable, you are required to pass GET (kind of request), url (of the website)
+        and the two last variables are responsible of the place of the "RESULTS" and "ERRORS"
+    */
     private StringRequest createRequest(String url, int recipient){
         ResponseHandler rph = new ResponseHandler(this, recipient);
         StringRequest request = new StringRequest(Request.Method.GET, url, rph, rph);
         return request;
     }
+
+    /* This function, is reponsible for passing the results from the volley.
+       the results from the request arrives to the "OnResponse" function on the "ResponseHandler" class.
+       from OnResponse, it goes to  the "onNewResult" function on the service class.
+
+        CONTINUE
+       the function passing the results, by building an intent which contain the relevant data, set an action()
+     */
 
     @Override
     public void onNewResult(String result, Integer recipient) {
@@ -178,6 +245,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                 intent.setAction(NEW_GRAPH_DATA);
                 intent.putExtra("dataResponse", result);
                 sendBroadcast(intent);
+             //   updateNotification("new Graph data just arrived from the server");
                 break;
 
             case LOG_RECIPIENT: {
@@ -221,6 +289,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         }
     }
 
+    // I decided to send the request without thread, directly from onStartCommand
     private class CommThread extends Thread {
         String url;
         Integer recipient;

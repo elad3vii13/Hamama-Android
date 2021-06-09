@@ -5,6 +5,11 @@ public class Sensor {
     String name;
     String units;
 
+    /*
+        When you create the object a, you get a single sensor, which contains
+        his id, name and units
+    */
+
     public Sensor(long id, String name, String units) {
         super();
         this.id = id;

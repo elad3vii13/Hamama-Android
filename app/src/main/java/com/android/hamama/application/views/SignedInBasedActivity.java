@@ -14,6 +14,15 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.android.hamama.application.R;
 
 public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
+
+    /*
+        This class contains all the screens, besides the login screen
+        (all the screens which extends from that class (it also means
+        that all the screens have the BroadcastReceive)
+        in other words, all of the screen which bypassed the login process
+        are extends from that class.
+    */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -31,14 +40,19 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
         super.onResume();
     }
 
+    /*
+        when you click the menu(and select 'settings'), you opens a new fragment which
+        contain the content of preferences.xml (the 'stay-login' option)
+    */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(android.R.id.content, new MySettingsFragment())
-                        .addToBackStack(null)
+                        .replace(android.R.id.content, new MySettingsFragment()) // sets the screen
+                        .addToBackStack(null) // when you press button, you'll be in home screen, instead of exit the app
                         .commit();
                 return true;
 
@@ -46,6 +60,10 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
                 return super.onContextItemSelected(item);
         }
     }
+
+    /*
+        the class, which sets the fragment after clicking the 'settings' menu
+    */
 
     public static class MySettingsFragment extends PreferenceFragmentCompat {
         @Override

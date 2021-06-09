@@ -17,6 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SensorsBasedActivity extends SignedInBasedActivity implements DisplaySettings.SettingsListener  {
+
+    /*
+        The purpose of this class is to declare the functions of the interface on DisplaySettings.SettingsListener.
+        most of the functions of this interface are the same for the both of the 'Measures' and 'Log' activities
+        (which contains the DisplaySettings and the Graph/LogFragment fragments).
+
+        The showPriority and clearDisplay are different from each other, so they are defined differently
+        that is the reason they are not defined here.
+
+        This class extends from 'SignedInBasedActivity' because all of the screens which extends this class
+        uses the menu, and uses the BroadcastReceiver.
+     */
+
     String jsonSensors;
     ArrayList<Sensor> sensors;
     SharedPreferences sh1;

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
-     ArrayList<LogEntry> entries;
-     Context context;
+     ArrayList<LogEntry> entries; // ArrayList which contain the desired data to be on the listView
+     Context context; // the context of the activity which contain the listView
 
      public LogAdapter(Context context, ArrayList<LogEntry> entries){
          this.entries = entries;
@@ -31,6 +31,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
          */
      }
 
+    // Initialize the RecyclerView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

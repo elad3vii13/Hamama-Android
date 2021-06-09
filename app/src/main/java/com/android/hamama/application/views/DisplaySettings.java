@@ -85,7 +85,7 @@ public class DisplaySettings extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.graphSettingsListener = (SettingsListener) context;
+        this.graphSettingsListener = (SettingsListener) context; // ???
     }
 
     @Override
@@ -96,7 +96,12 @@ public class DisplaySettings extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // Shows the last result from the last week.
+        /* SHOWES THE LAST RESULT FROM THE LAST WEEK
+        It does that, by creating a request from the server with the function
+        onNewSettings of the graphSettingsListener (which means the function declered on-
+        SensorBasedActivity because this is who implements the interface).
+        */
+
         if (graphSettingsListener.showPriority()) { // LOG scenario
             Bundle bundle;
             bundle = new Bundle();

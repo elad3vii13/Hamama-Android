@@ -39,7 +39,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     final static String SIGNED_OUT_URL = "http://10.0.2.2:8080/mobile?cmd=logout";
 
     // The queue of the requests, that executed by the Volley.
-    static RequestQueue queue;
+    static RequestQueue queue; // RequestQueue, is a type of volley.
 
     /*  The recipients. this part is needed because
 

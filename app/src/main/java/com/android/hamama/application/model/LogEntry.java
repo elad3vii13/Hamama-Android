@@ -2,6 +2,11 @@ package com.android.hamama.application.model;
 
 public class LogEntry {
 
+    /*
+        When you create the object a, you get a single logEntry, which contains
+        the priority, time, message, and sid
+     */
+
     public final static String INFO = "info";
     public final static String WARNING = "warning";
     public final static String ERROR = "error";

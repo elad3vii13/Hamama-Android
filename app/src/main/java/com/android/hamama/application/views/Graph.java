@@ -58,6 +58,7 @@ public class Graph extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment Graph.
      */
+
     // TODO: Rename and change types and number of parameters
     public static Graph newInstance(String param1, String param2) {
         Graph fragment = new Graph();

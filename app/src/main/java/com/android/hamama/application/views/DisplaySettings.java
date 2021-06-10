@@ -41,8 +41,9 @@ public class DisplaySettings extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    long WEEK_IN_UNIXTIME = 604800 * 1000; // 60(minutes)*60(hours)= 3600 seconds
-    // 7(Days in a week) * 24(hours a day) > 24*7*3600 > hours to seconds: 604800(in seconds) * 1000 > 604800000(mili seconds)
+    long WEEK_IN_UNIXTIME = 604800 * 1000; /* 60(minutes)*60(hours)= 3600 seconds
+    7(Days in a week) * 24(hours a day) > 24*7*3600 > hours to seconds: 604800(in seconds) * 1000 > 604800000(mili seconds)
+    */
 
     ProgressBar progressBar;
     TextView textView1, textView2;
@@ -116,15 +117,26 @@ public class DisplaySettings extends Fragment {
         }
     }
 
-    public void initGraphSettings(){
+    /*
+        the funciton, build a MultiSpinner for the measures activity.
+        and regular spinner for the log activity.
+    */
+
+    public void initGraphSettings() {
         ArrayAdapter<String> adapter;
-        sensors = graphSettingsListener.getSensorsList();
-        progressBar.setVisibility(View.INVISIBLE);
-        updateSensors.setEnabled(true);
+        sensors = graphSettingsListener.getSensorsList(); // it gets the list of the sensors as arrayList<Sensor>
+        progressBar.setVisibility(View.INVISIBLE); // start as invisible
+        updateSensors.setEnabled(true); // set the button as visible
 
         if(sensors == null) return;
 
-        // create spinner list elements
+        /*
+            this block of code, initialise the adapter add him the sensors,
+            and then sets the spinner the adapter.
+
+           this multi-spinner will be shown only on the log activity.
+        */
+
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
         for(int i=0; i<sensors.size(); i++ ){
             adapter.add(sensors.get(i).getName());
@@ -142,9 +154,18 @@ public class DisplaySettings extends Fragment {
 
         // set initial selection
         boolean[] selectedItems = new boolean[adapter.getCount()];
-        selectedItems[1] = true; // select second item
+        selectedItems[1] = true; // select second item - as default
         spinner.setSelected(selectedItems);
         spinner.setEnabled(true);
+
+        /* Because this is a multiSpinner, we can select multiple
+        choices, we start by setting a boolean array, and the array value at the
+        index of the selected sensors would be 'true'.
+        */
+
+        /* This code, will build the regular spinner of the priority.
+           this spinner will be shown only on the log activity.
+        */
 
         // create spinner list elements
         ArrayAdapter<String> adapter2;
@@ -177,10 +198,28 @@ public class DisplaySettings extends Fragment {
         updateSensors = view.findViewById(R.id.updateSensors);
         progressBar = view.findViewById(R.id.progressBar2);
 
+        /*
+            With the help of the function 'showPriority' that declares
+            in the 'Measures' and the 'Log' differently, we can know
+            in what way to adjust the displaySettings that would fit
+            to the desired look.
+
+            In that example, we can understand that we want we don't
+            the updateSensors button and the progressBar to appear.
+        */
+
         if(graphSettingsListener.showPriority()){ // LOG
             updateSensors.setVisibility(view.INVISIBLE);
             progressBar.setVisibility(view.INVISIBLE);
         }
+
+        /*
+            In the case of a click on the updateSensors button,
+            we want to show the progress bar with a fit toast message,
+            and of course disable the button while it's requesting the new
+            sensors list from the server. (we do that by using the function written on
+            SensorBasedActivity [which is implementing the interface from DisplaySettings]).
+        */
 
         updateSensors.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,11 +231,22 @@ public class DisplaySettings extends Fragment {
             }
         });
 
+        /*
+            This is what will happen, after clicking on the refreshBtn button:
+            Log Scenario:
+                It will build the right bundle for that, (from, to, priority[from the spinner])
+
+            Measure Scenario:
+                it will build the right bundle for that [from, to, sensor]
+                and it will repeat the code, until there are no true values in the array.
+        */
+
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 graphSettingsListener.clearDisplay();
                 Bundle bundle;
+
                 if (graphSettingsListener.showPriority()) { //LOG scenario
                     bundle = new Bundle();
                     bundle.putLong("from", from);
@@ -206,6 +256,7 @@ public class DisplaySettings extends Fragment {
                         bundle.putString("priority", priorityLevel);
                     graphSettingsListener.onNewSettings(bundle);
                 }
+
                 else{
                     boolean[] selected = spinner.getSelected();
                     for (int i=0; i<selected.length; i++){
@@ -242,6 +293,9 @@ public class DisplaySettings extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    /*
+        Function - that takes care of the open the Date Picker
+    */
 
     private void showDateDialog(final TextView textView, View view) {
         final Calendar calendar = Calendar.getInstance();
@@ -264,12 +318,11 @@ public class DisplaySettings extends Fragment {
 
     private void showTimeDialog(final TextView time_in, View view, final Calendar calendar) {
         TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
-
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 calendar.set(Calendar.MINUTE,minute);
-                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
                 time_in.setText(time_in.getText() + " " + simpleDateFormat.format(calendar.getTime()));
                 if(time_in.getId() == R.id.tvFrom) {
                     from = calendar.getTimeInMillis();
@@ -280,7 +333,7 @@ public class DisplaySettings extends Fragment {
             }
         };
 
-        new TimePickerDialog(view.getContext(),timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+        new TimePickerDialog(view.getContext(),timeSetListener,calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),false).show();
     }
 
     @Override

@@ -8,6 +8,14 @@ import android.os.Bundle;
 import com.android.hamama.application.R;
 import com.android.hamama.application.communication.CommService;
 
+/*
+    This is the activity of the logs, in this activity the fragments [displaySettings, LogFragment]
+    are located.
+
+    extends from SensorBasedActivity, and implements some of the functions from the 'DisplaySettings.SettingsListener'
+    interface.
+*/
+
 public class Log extends SensorsBasedActivity {
     FragmentManager fmgr;
 
@@ -16,6 +24,14 @@ public class Log extends SensorsBasedActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
     }
+
+    /*
+        declares the function of the interface of displaySettings,
+        I didn't do that on SensorBasedActivity (who implements the interface)
+        because sensorBasedActivity, contain all the shared functions to the 'Measures' and 'Log'
+
+        And I want to add different recipients to different requests.
+    */
 
     @Override
     public void onNewSettings(Bundle bundle) {
@@ -27,6 +43,9 @@ public class Log extends SensorsBasedActivity {
     public boolean showPriority() {
         return true;
     }
+
+    /* ????????????????
+    */
 
     @Override
     protected void onBroadcastReceived(Intent intent) {
@@ -46,9 +65,14 @@ public class Log extends SensorsBasedActivity {
 
     @Override
     public void clearDisplay() {
-
     }
 
+
+    /*
+        if I get a broadCast response of new data of the log, I would like to
+        pass that on the function on the graph, that takes care of the organization of the data
+        with given 'json' array.
+     */
     @Override
     protected void onResume() {
         super.onResume();

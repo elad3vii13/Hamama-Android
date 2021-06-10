@@ -72,6 +72,7 @@ public class LogFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    // Will build the listView by using the LogAdapter
     public void refreshLog(String newData) {
         Type listType = new TypeToken<List<LogEntry>>() {}.getType();
         ArrayList<LogEntry> mList = new Gson().fromJson(newData, listType);

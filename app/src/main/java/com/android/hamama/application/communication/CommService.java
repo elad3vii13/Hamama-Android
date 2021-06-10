@@ -80,6 +80,8 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public void onCreate() {
         super.onCreate();
         initForeground();
+
+        // Saves the session id as a cookie
         CookieManager manager = new CookieManager();
         CookieHandler.setDefault(manager);
 
@@ -93,6 +95,11 @@ public class CommService extends Service implements ResponseHandler.ServerResult
             queue = Volley.newRequestQueue(this);
     }
 
+    /*
+        if the user chose not to stay login, and the service was killed
+        the application will logout the server automatically
+    */
+
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         System.out.println("onTaskRemoved called");
@@ -102,7 +109,8 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Boolean stay = prefs.getBoolean("stay_loggedin", false);
         if(!stay){
-            new CommThread(SIGNED_OUT_URL, null).start();
+            queue.add(createRequest(SIGNED_OUT_URL, null));
+            // new CommThread(SIGNED_OUT_URL, null).start();
         }
         //this.stopSelf();
     }
@@ -122,7 +130,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         String url = buildUrlFromBundle(bundle);
         queue.add(createRequest(url, recipient));
 //        new CommThread(url, recipient).start(); // Corrently Disabled
-        return START_REDELIVER_INTENT;
+        return START_REDELIVER_INTENT; // if the service was killed, it will be restarted with the same intent
     }
 
     /*
@@ -221,7 +229,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         in order to create a StringRequest variable, you are required to pass GET (kind of request), url (of the website)
         and the two last variables are responsible of the place of the "RESULTS" and "ERRORS"
     */
-    private StringRequest createRequest(String url, int recipient){
+    private StringRequest createRequest(String url, Integer recipient){
         ResponseHandler rph = new ResponseHandler(this, recipient);
         StringRequest request = new StringRequest(Request.Method.GET, url, rph, rph);
         return request;

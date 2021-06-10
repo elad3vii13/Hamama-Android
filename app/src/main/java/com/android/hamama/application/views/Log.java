@@ -44,9 +44,6 @@ public class Log extends SensorsBasedActivity {
         return true;
     }
 
-    /* ????????????????
-    */
-
     @Override
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
@@ -55,10 +52,13 @@ public class Log extends SensorsBasedActivity {
                 LogFragment logFrag = (LogFragment) fmgr.findFragmentById(R.id.logFrag);
                 logFrag.refreshLog(mdata);
                 break;
-            case CommService.NEW_SENSORS_LIST:
-                super.onBroadcastReceived(intent);
-                break;
+
+//            case CommService.NEW_SENSORS_LIST:
+//                super.onBroadcastReceived(intent);
+//                break;
+
             default:
+                super.onBroadcastReceived(intent);
                 break;
         }
     }

@@ -20,6 +20,11 @@ public class MainMenu extends SignedInBasedActivity {
     Button signout_btn;
     SharedPreferences prefs;
 
+    /*
+        The broadCast listens until he got a SIGNOUT_RESPONSE from the server,
+        and goes back to the main menu activity.
+    */
+
     @Override
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
@@ -49,7 +54,7 @@ public class MainMenu extends SignedInBasedActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String name = prefs.getString("username", "");
-        welcome_tv.setText(  "ברוכים הבאים, " + name);
+        welcome_tv.setText("ברוכים הבאים, " + name);
     }
 
     public void signOut(View view) {
@@ -75,13 +80,13 @@ public class MainMenu extends SignedInBasedActivity {
         startActivity(intent);
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean isMyServiceRunning(Class<?> serviceClass) {
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (serviceClass.getName().equals(service.service.getClassName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }

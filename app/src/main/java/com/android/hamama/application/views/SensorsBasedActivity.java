@@ -28,7 +28,7 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
 
         This class extends from 'SignedInBasedActivity' because all of the screens which extends this class
         uses the menu, and uses the BroadcastReceiver.
-     */
+    */
 
     String jsonSensors;
     ArrayList<Sensor> sensors;

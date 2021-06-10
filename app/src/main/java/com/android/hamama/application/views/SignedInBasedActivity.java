@@ -25,6 +25,7 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate - creating java objects in memory for all widgets define inside the layout xml file
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);

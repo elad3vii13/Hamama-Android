@@ -15,6 +15,7 @@ import com.android.hamama.application.R;
 import com.android.hamama.application.communication.CommService;
 
 public class LoginActivity extends BroadcastBasedActivity {
+
     EditText username_txt, password_txt;
     Button button;
     String currentUser, currentPassword;
@@ -23,10 +24,13 @@ public class LoginActivity extends BroadcastBasedActivity {
     @Override
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
+
+
             case CommService.SIGNIN_RESPONSE:
                 String result = intent.getStringExtra("signin_result");
-                if(Integer.parseInt(result) == -1)
+                if(Integer.parseInt(result) == -1) // The server returns -1 in a case of an error
                     Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show();
+
                 else {
                     SharedPreferences.Editor e = prefs.edit();
                     e.putString("username", currentUser);
@@ -37,7 +41,8 @@ public class LoginActivity extends BroadcastBasedActivity {
                     goMainMenu();
                 }
                 break;
-            case CommService.CURRENT_USER_RESPONSE: // Check if the user is still in the current session.
+
+            case CommService.CURRENT_USER_RESPONSE: // Check if the user is still in the session
                 int userId = Integer.parseInt(intent.getStringExtra("currentUserId"));
                 Boolean stay = prefs.getBoolean("stay_loggedin", false);
 
@@ -52,6 +57,7 @@ public class LoginActivity extends BroadcastBasedActivity {
                         login(prefUsername, prefPassword);
                 }
                 break;
+
             default:
                 break;
         }
@@ -60,7 +66,7 @@ public class LoginActivity extends BroadcastBasedActivity {
     private void goMainMenu() {
         Intent intent1 = new Intent(LoginActivity.this, MainMenu.class);
         intent1.putExtra("name", username_txt.getText().toString());
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // back button won't return you to the login activity
         startActivity(intent1);
     }
 
@@ -69,6 +75,12 @@ public class LoginActivity extends BroadcastBasedActivity {
         super.onResume(); // This line must be code before any line.
         IntentFilter intentFilter = new IntentFilter(CommService.SIGNIN_RESPONSE);
         intentFilter.addAction(CommService.CURRENT_USER_RESPONSE);
+
+        /*  everytime we resume we want to check
+            if we are still connected with the server,
+            and tomcat didn't closed our session.
+        */
+
         checkCurrentUser();
         registerReceiver(drr, intentFilter);
     }
@@ -92,6 +104,7 @@ public class LoginActivity extends BroadcastBasedActivity {
         });
     }
 
+    // Send a request to the server, in order to login
     private void login(String username, String password){
         Bundle bundle = new Bundle();
         bundle.putInt("recipient", CommService.SIGNIN_RECIPIENT);
@@ -102,6 +115,7 @@ public class LoginActivity extends BroadcastBasedActivity {
         startForegroundService(intent);
     }
 
+    // Send a request to the server, in order to get the user that connected to the server
     private void checkCurrentUser(){
         Bundle bundle = new Bundle();
         bundle.putInt("recipient", CommService.CURRENT_USER_RECIPIENT);

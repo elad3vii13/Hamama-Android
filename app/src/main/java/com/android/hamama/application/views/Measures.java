@@ -89,11 +89,12 @@ public class Measures extends SensorsBasedActivity {
                 graphFrag.refreshGraph(mdata);
                 break;
 
-            case CommService.NEW_SENSORS_LIST:
-                super.onBroadcastReceived(intent);
-                break;
+//            case CommService.NEW_SENSORS_LIST:
+//                super.onBroadcastReceived(intent);
+//                break;
 
             default:
+                super.onBroadcastReceived(intent);
                 break;
         }
     }

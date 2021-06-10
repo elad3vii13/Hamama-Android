@@ -78,6 +78,11 @@ public class Graph extends Fragment {
         }
     }
 
+/*
+    In order to build the graph, the graph requires you to work with the
+    DataPoint type and build an array.
+
+*/
 private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
 
     Type listType = new TypeToken<List<Measure>>() {}.getType();
@@ -87,6 +92,7 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     String sensorName = data.getProperty("name");
     int sid = Integer.parseInt(data.getProperty("id"));
     List<Measure> mList = new Gson().fromJson(measures, listType);
+
     DataPoint[] dp = new  DataPoint[mList.size()];
 
     if(mList.size() == 0) {
@@ -98,15 +104,18 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
     }
 
     Calendar calendar = Calendar.getInstance();
+
     if (minDate==0)
         minDate = mList.get(0).getTime();
     if (maxDate == 0)
         maxDate = mList.get(0).getTime();
 
-    for (int i = 0; i<mList.size();i++){
+    for (int i = 0; i<mList.size(); i++){
+
+        /* Because the graph requires you to tell him the specific period of time
+        I would search for the max and min points */
         if(mList.get(i).getTime() > maxDate)
             maxDate = mList.get(i).getTime();
-
         if(mList.get(i).getTime() < minDate)
             minDate = mList.get(i).getTime();
 
@@ -114,6 +123,7 @@ private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
         dp[i] = new DataPoint(mList.get(i).getTime(), mList.get(i).getValue());
     }
 
+    // Build the graph series with the data that we have
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
     series.setTitle(sensorName);
     series.setColor(colors[sid-1]);

@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
     A class which use Volley, in order to get the responses from the server.
     the requests are sent from the CommService activity
  */
+
 public class ResponseHandler implements  Response.Listener<String>, Response.ErrorListener{
     ServerResultHandler listener;
     Integer recipient;

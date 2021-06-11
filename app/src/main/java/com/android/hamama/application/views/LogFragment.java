@@ -78,6 +78,7 @@ public class LogFragment extends Fragment {
         ArrayList<LogEntry> mList = new Gson().fromJson(newData, listType);
         rvlog.setAdapter(new LogAdapter(getActivity(), mList));
 
+        // the listView will be scrollable vertically
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvlog.setLayoutManager(layoutManager);
     }

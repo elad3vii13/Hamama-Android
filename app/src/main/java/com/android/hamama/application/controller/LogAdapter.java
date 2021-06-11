@@ -25,9 +25,9 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
      public LogAdapter(Context context, ArrayList<LogEntry> entries){
          this.entries = entries;
          this.context = context;
-         notifyDataSetChanged(); /*
-         Notifies the attached observers that the underlying data has been changed
-         and any View reflecting the data set should refresh itself.
+         notifyDataSetChanged();
+         /* Notifies the attached observers that the underlying data has been changed
+            and any View reflecting the data set should refresh itself.
          */
      }
 
@@ -39,6 +39,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
         return new MyViewHolder(view);
     }
 
+    // returns the size of the arrayList
     @Override
     public int getItemCount() {
         return entries.size();
@@ -50,6 +51,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MyViewHolder> {
         holder.bindData(entry);
     }
 
+    // the ViewHolder should be a binder of each recyclerView - bind every data to the right component
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPriority;
         TextView tvTime;

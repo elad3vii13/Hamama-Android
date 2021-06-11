@@ -97,7 +97,7 @@ public class DisplaySettings extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        /* SHOWES THE LAST RESULT FROM THE LAST WEEK
+        /* SHOWS THE LAST RESULT FROM THE LAST WEEK
         It does that, by creating a request from the server with the function
         onNewSettings of the graphSettingsListener (which means the function declered on-
         SensorBasedActivity because this is who implements the interface).

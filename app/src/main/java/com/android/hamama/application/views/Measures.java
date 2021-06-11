@@ -77,7 +77,6 @@ public class Measures extends SensorsBasedActivity {
 
         Also, if I get a response of sensor list, I would like to refresh the DisplaySettings.
         I do that here, because I don't have a list of sensors on the log activity.
-        ????????????????????????
     */
 
     @Override

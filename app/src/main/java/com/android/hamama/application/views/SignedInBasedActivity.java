@@ -23,6 +23,8 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
         are extends from that class.
     */
 
+    /*  To specify the options menu for an activity,
+        override onCreateOptionsMenu() */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate - creating java objects in memory for all widgets define inside the layout xml file
@@ -57,6 +59,11 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
                         .commit();
                 return true;
 
+            /* If you don't handle the menu item, you should call
+               the superclass implementation of onOptionsItemSelected()
+               (the default implementation returns false).
+            */
+
             default:
                 return super.onContextItemSelected(item);
         }
@@ -64,6 +71,9 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
 
     /*
         the class, which sets the fragment after clicking the 'settings' menu
+
+        In Android apps, there are often settings pages that contain different options the user can tweak.
+        These preferences will automatically save to SharedPreferences as the user interacts with them.
     */
 
     public static class MySettingsFragment extends PreferenceFragmentCompat {
@@ -71,6 +81,9 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences, rootKey);
         }
+
+        /* onCreateView() is called by Android once the Fragment should inflate a view
+           This piece of code change the color of the fragment */
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

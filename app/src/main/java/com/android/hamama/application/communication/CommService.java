@@ -25,24 +25,24 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 
 /*
-   The CommService class - (CommThread in here):
-   This class handles the communication between the server and volley by
-   building the right url for the appropriate recipient - and building a queue of requests by
-   the right format.
+   The CommService class - (CommThread in here [not in use]):
+   This class sends the requests to the server by adding them to the volley queue
+   and makes sure that the right result goes the right place by the usage of recipients.
+   * the class builds the right url for the appropriate recipient and then
+   add then to the volley queue by the right format.
 
    After the result received from the async function, It is sent to the right
    recipient, by creating actions for every kind of request - and broadcasting it.
-   That's how the "acitivty of the recipient" knows which broadcast to listen to.
+   That's how the "activity of the recipient" knows which broadcast to listen to.
  */
-public class CommService extends Service implements ResponseHandler.ServerResultHandler {
 
+public class CommService extends Service implements ResponseHandler.ServerResultHandler {
     final static String SIGNED_OUT_URL = "http://10.0.2.2:8080/mobile?cmd=logout";
 
-    // The queue of the requests, that executed by the Volley.
+    // The queue of the requests, that executed by the Volley automatically
     static RequestQueue queue; // RequestQueue, is a type of volley.
 
-    /*  The recipients. this part is needed because
-
+    /*  The recipients, this part is needed because
         * the service needs to know where to send the results to
         it does that by setting the right action for that recipient, because the "recipient activity", they are listening
         to that action (so it necessary to know what action to bind).
@@ -58,8 +58,8 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int CURRENT_USER_RECIPIENT = 6;
 
     /*  The actions, that the recipient is listening to,
-        for example the "login", recepient registered that action and he is listening to that action.
-     */
+        for example the "login", recipient registered that action and he is listening to that action.
+    */
 
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
     public static final String NEW_SENSORS_LIST = "com.elad.project.commservice.sensors_list";
@@ -68,7 +68,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final String SIGNOUT_RESPONSE = "com.elad.project.commservice.signout_response";
     public static final String CURRENT_USER_RESPONSE = "com.elad.project.commservice.current_user_response";
 
-    // for the initForeground function, that the service is requires you to run
+    // Those variables are used in the initForeground function, that the service is requires you to run
     NotificationManager mNotiMgr;
     Notification.Builder mNotifyBuilder;
     final int NOTIFICATION_ID1=1;
@@ -81,7 +81,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
         super.onCreate();
         initForeground();
 
-        // Saves the session id as a cookie
+        // Saves the session id as a cookie - so if the session went down for some reason it won't lose data.
         CookieManager manager = new CookieManager();
         CookieHandler.setDefault(manager);
 
@@ -118,11 +118,12 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     /*
         Every time someone request a request, this code will be execute after being called by "start foreground service"
         the code will extract the bundles data and the recipient, and add them to the queue by the format it requires,
-        to fit to that format, we'll use the function createReqeust that uses a function from ResponseHandler.
+        to fit to that format, we'll use the function createRequest that uses a function from ResponseHandler.
 
         From that format, we are telling volley where to send the results, after it got it.
         When the result arrives, it will go to the onNewResult function on the service class.
     */
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle = intent.getExtras();
@@ -143,6 +144,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     private String buildUrlFromBundle(Bundle bundle) {
         int recipient = bundle.getInt("recipient");
         String result = "";
+
          switch(recipient) {
              case GRAPH_RECIPIENT:
                  long from = bundle.getLong("from");
@@ -187,8 +189,9 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
     /* This function is required by the service, because of the use of foreground service.
        I chose to work with foreground service, because this is marked as "more important", from background service,
-       to stop it, you need to do that manually, and the androidOS does not do that automatically.
+       to stop it, you need to do that manually, and the androidOS doesn't do that automatically.
     */
+
     private void initForeground(){
         String CHANNEL_ID = "my_channel_01";
         if (mNotiMgr==null)
@@ -226,20 +229,20 @@ public class CommService extends Service implements ResponseHandler.ServerResult
 
     /*  this function purpose is to fit the url and the recipient to the format of StringRequest
         because this is the format the queue of requests gets.
-        in order to create a StringRequest variable, you are required to pass GET (kind of request), url (of the website)
+        in order to create a StringRequest variable, you are required to pass GET (kind of request), url (of the data)
         and the two last variables are responsible of the place of the "RESULTS" and "ERRORS"
     */
+
     private StringRequest createRequest(String url, Integer recipient){
         ResponseHandler rph = new ResponseHandler(this, recipient);
         StringRequest request = new StringRequest(Request.Method.GET, url, rph, rph);
         return request;
     }
 
-    /* This function, is reponsible for passing the results from the volley.
+    /* This function, is responsible for passing the results from the volley.
        the results from the request arrives to the "OnResponse" function on the "ResponseHandler" class.
        from OnResponse, it goes to  the "onNewResult" function on the service class.
 
-        CONTINUE
        the function passing the results, by building an intent which contain the relevant data, set an action()
      */
 

@@ -67,7 +67,6 @@ public class Log extends SensorsBasedActivity {
     public void clearDisplay() {
     }
 
-
     /*
         if I get a broadCast response of new data of the log, I would like to
         pass that on the function on the graph, that takes care of the organization of the data

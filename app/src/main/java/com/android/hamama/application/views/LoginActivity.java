@@ -24,8 +24,6 @@ public class LoginActivity extends BroadcastBasedActivity {
     @Override
     protected void onBroadcastReceived(Intent intent) {
         switch(intent.getAction()){
-
-
             case CommService.SIGNIN_RESPONSE:
                 String result = intent.getStringExtra("signin_result");
                 if(Integer.parseInt(result) == -1) // The server returns -1 in a case of an error
@@ -46,7 +44,7 @@ public class LoginActivity extends BroadcastBasedActivity {
                 int userId = Integer.parseInt(intent.getStringExtra("currentUserId"));
                 Boolean stay = prefs.getBoolean("stay_loggedin", false);
 
-                if(userId!=-1)
+                if(userId != -1)
                     goMainMenu();
 
                 else if (stay){

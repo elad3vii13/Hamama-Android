@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+
         android:orientation="horizontal">
 
         <Button
@@ -49,11 +50,13 @@
             android:layout_marginRight="5dp"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:textSize="20dp"
             android:layout_weight="1"
             android:background="@drawable/roundcorners"
             android:text="ניסויים"></Button>
 
         <Button
+            android:textSize="20dp"
             android:onClick="LogActivity"
             android:id="@+id/history"
             android:layout_marginLeft="5dp"
@@ -78,6 +81,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:textSize="20dp"
             android:onClick="signOut"
             android:id="@+id/signout"
             android:layout_marginRight="5dp"

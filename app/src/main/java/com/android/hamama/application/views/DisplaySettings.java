@@ -98,7 +98,7 @@ public class DisplaySettings extends Fragment {
         }
 
         /* SHOWS THE LAST RESULT FROM THE LAST WEEK
-        It does that, by creating a request from the server with the function
+        It does that, by creating a request for the server with the function
         onNewSettings of the graphSettingsListener (which means the function declered on-
         SensorBasedActivity because this is who implements the interface).
         */
@@ -204,7 +204,7 @@ public class DisplaySettings extends Fragment {
             in what way to adjust the displaySettings that would fit
             to the desired look.
 
-            In that example, we can understand that we want we don't
+            In that example, we can understand that we dont want
             the updateSensors button and the progressBar to appear.
         */
 
@@ -330,6 +330,12 @@ public class DisplaySettings extends Fragment {
                 else {
                     to = calendar.getTimeInMillis();
                 }
+
+
+                if(from != null && to != null && to > from)
+                    refreshBtn.setEnabled(true);
+                else
+                    refreshBtn.setEnabled(false);
             }
         };
 

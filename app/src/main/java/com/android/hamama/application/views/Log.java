@@ -72,6 +72,7 @@ public class Log extends SensorsBasedActivity {
         pass that on the function on the graph, that takes care of the organization of the data
         with given 'json' array.
      */
+
     @Override
     protected void onResume() {
         super.onResume();

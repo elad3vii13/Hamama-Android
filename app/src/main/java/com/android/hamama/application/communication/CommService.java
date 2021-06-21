@@ -58,7 +58,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
     public static final int CURRENT_USER_RECIPIENT = 6;
 
     /*  The actions, that the recipient is listening to,
-        for example the "login", recipient registered that action and he is listening to that action.
+        for example the "login", recipient registered that action and he is listening to that actions
     */
 
     public static final String NEW_GRAPH_DATA = "com.elad.project.commservice.new_measure_data";
@@ -163,7 +163,7 @@ public class CommService extends Service implements ResponseHandler.ServerResult
                  if (sensor1!= -1) result += "&sid=" + sensor1;
                  if (priority!= null) result += "&priority=" + priority;
                  //System.out.println(result);
-                 String something = result;
+                 //String something = result;
                  break;
 
              case MEASURE_RECIPIENT:

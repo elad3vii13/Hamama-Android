@@ -80,8 +80,7 @@ public class Graph extends Fragment {
 
 /*
     In order to build the graph, the graph requires you to work with the
-    DataPoint type and build an array.
-
+    DataPoint type and build an array
 */
 private  LineGraphSeries<DataPoint> buildGraphData(JsonElement responseData){
 

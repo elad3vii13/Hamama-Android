@@ -116,8 +116,9 @@ public abstract class SensorsBasedActivity extends SignedInBasedActivity impleme
                 DisplaySettings fragDisplaySettings = (DisplaySettings) fmgr.findFragmentById(R.id.fragDisplaySettings);
                 /*
                     we don't need to pass the 'sensors' variable because the function initGraphSettings will call
-                    the function 'getSensorList' later.
+                    the function 'getSensorList()' later.
                  */
+
                 fragDisplaySettings.initGraphSettings();
                 break;
             default:

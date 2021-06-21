@@ -18,7 +18,7 @@ public abstract class  SignedInBasedActivity extends BroadcastBasedActivity {
     /*
         This class contains all the screens, besides the login screen
         (all the screens which extends from that class (it also means
-        that all the screens have the BroadcastReceive)
+        that all the screens have the BroadcastReceiver)
         in other words, all of the screen which bypassed the login process
         are extends from that class.
     */

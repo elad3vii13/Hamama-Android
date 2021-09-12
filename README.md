@@ -1,7 +1,7 @@
 # Hamama-Android
 The application is designed to provide easy access to data that is received from the smart greenhouse and stored in a database.
 
-The purpose of the application is to view the data of the sensor measurements obtained from the incubator in the form of a linear graph of the user's choice. In addition you can see the fault history found in the sensors by setting a date range, and a specific selection of sensors.
+The purpose of the application is to view the data of the sensor measurements obtained from the greenhouse in the form of a linear graph of the user's choice. In addition you can see the fault history found in the sensors by setting a date range, and a specific selection of sensors.
 <br>
 <br>
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.Log">
+
+    <fragment
+        android:layout_height="400dp"
+        tools:layout="@layout/fragment_log"
+        android:id="@+id/logFrag"
+        class="com.android.hamama.application.views.LogFragment"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"></fragment>
+
+    <fragment
+        android:id="@+id/fragDisplaySettings"
+        class="com.android.hamama.application.views.DisplaySettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logFrag"
+        tools:layout="@layout/fragment_graph_settings"
+        android:layout_alignParentBottom="true"></fragment>
+</RelativeLayout>

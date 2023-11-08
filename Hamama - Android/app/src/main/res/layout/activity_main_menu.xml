@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bg1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.MainMenu">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/welcome_txt"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:textColor="#383838"
+            android:text="ברוכים הבאים"></TextView>
+
+<!--        <ImageButton-->
+<!--            android:onClick="ApplicationSettingsActivity"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginTop="25dp"-->
+<!--            android:id="@+id/imageButton"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/settings" />-->
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+
+        android:orientation="horizontal">
+
+        <Button
+            android:onClick="MeasuresActivity"
+            android:id="@+id/measures"
+            android:layout_marginRight="5dp"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/roundcorners"
+            android:text="ניסויים"></Button>
+
+        <Button
+            android:textSize="20dp"
+            android:onClick="LogActivity"
+            android:id="@+id/history"
+            android:layout_marginLeft="5dp"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/roundcorners"
+            android:text="היסטוריית פעילות"
+            tools:ignore="OnClick"></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/layout1"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:textSize="20dp"
+            android:onClick="signOut"
+            android:id="@+id/signout"
+            android:layout_marginRight="5dp"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/roundcorners"
+            android:text="התנתק"></Button>
+
+        <!--        <Button-->
+        <!--            android:onClick="SettingsActivity"-->
+        <!--            android:id="@+id/settings"-->
+        <!--            android:layout_marginLeft="5dp"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:background="@drawable/roundcorners"-->
+        <!--            android:text="הגדרות"></Button>-->
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,10 @@
+Download Eclipse
+Download app-engine from eclipse marketplace
+download jdk-8.0
+setup jdk path
+
+Download mysql workbench, server, and j-connector
+create 'sotz' scheme
+import files to 'sotz'
+
+run server on eclipse.

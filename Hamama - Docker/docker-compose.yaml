@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1313
+      MYSQL_DATABASE: sotz
+      MYSQL_USER: elad
+      MYSQL_PASSWORD: 1313
+      LANG: C.UTF-8
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      
+    networks:
+      - javaserver-mysql-net
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
+  serverjava:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8005:8080"
+    networks:
+      - javaserver-mysql-net
+
+networks:
+  javaserver-mysql-net:
+    driver: bridge
